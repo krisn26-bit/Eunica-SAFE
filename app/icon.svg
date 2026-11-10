@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Eunica Safe</title>
+  <rect width="64" height="64" rx="12" fill="#48123F"/>
+  <g transform="translate(32 33) scale(0.78) translate(-32 -32)">
+    <path d="M32 57C10.8 42.3 4 33.2 4 23.4 4 15 10.6 8.3 18.8 8.3c5.4 0 10.2 2.9 12.7 7.3h1c2.5-4.4 7.3-7.3 12.7-7.3C53.4 8.3 60 15 60 23.4c0 9.8-6.8 18.9-28 33.6Z"
+          fill="none" stroke="#E8B9C8" stroke-width="4.4" stroke-linejoin="round"/>
+    <circle cx="31" cy="23.5" r="5.8" fill="#FFF8F3"/>
+    <path d="M31 29.8c-6.2 0-10.2 4.6-10.8 12-.1 1 .7 1.9 1.7 1.9h18.2c1 0 1.8-.9 1.7-1.9-.6-7.4-4.6-12-10.8-12Z" fill="#FFF8F3"/>
+    <path d="M45.8 13.9h4v4.2h4.2v4h-4.2v4.2h-4v-4.2h-4.2v-4h4.2z" fill="#E8B9C8"/>
+  </g>
+</svg>

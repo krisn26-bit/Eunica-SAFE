@@ -1,0 +1,126 @@
+/*
+ * Eunica Safe design tokens.
+ *
+ * The palette is taken from the Eunica Safe logo: deep plum and burgundy
+ * lettering, dusty rose and soft blush accents, warm cream and soft ivory
+ * surfaces. Brand colors are all in the plum/rose family, which keeps them
+ * clearly separate from the reds below.
+ *
+ * Emergency colors are reserved: `--color-emergency-*` is only for 911 actions
+ * and `--color-serious-*` only for "seek emergency care now". Nothing else may
+ * use them, so red keeps its meaning. Urgency is always paired with a text
+ * label and an icon, never communicated by color alone.
+ *
+ * Every text/background pairing below meets WCAG AA at body size. Dusty rose
+ * (--rose) is an accent only: at 4.2:1 on cream it is for large text, borders,
+ * and washes, and `--rose-deep` is its text-safe companion.
+ */
+
+:root {
+  /* Brand palette, from the logo */
+  --plum: #48123f;
+  --burgundy: #651b4f;
+  --rose: #b85f80;
+  --rose-deep: #a75176;
+  --blush: #e8b9c8;
+  --blush-wash: #f6e4ea;
+  --cream: #fff8f3;
+  --ivory: #f8f0ea;
+  --charcoal: #342b32;
+
+  /* Surfaces */
+  --parchment: var(--cream);
+  --parchment-deep: var(--ivory);
+  --paper: #ffffff;
+  --paper-edge: #ead9e0;
+  --ink-panel: #2b1526;
+
+  /* Text */
+  --ink: var(--charcoal);
+  --ink-soft: #54454f;
+  --ink-muted: #6b5a64;
+  --ink-inverse: #fff8f3;
+
+  /* Urgency ramp. Plum and rose for everyday guidance, reds for emergencies. */
+  --wine: #8c2434;
+  --wine-wash: #f7e3e6;
+  --emergency: #c92f2f;
+  --emergency-deep: #a52727;
+  --emergency-wash: #fbe7e5;
+  --caution: var(--rose-deep);
+  --caution-wash: var(--blush-wash);
+
+  /* Lines */
+  --rule: #e4d3da;
+  --rule-strong: #cdb1bd;
+
+  /* Semantic roles */
+  --color-bg: var(--cream);
+  --color-bg-alt: var(--ivory);
+  --color-surface: var(--paper);
+  --color-surface-border: var(--paper-edge);
+  --color-text: var(--ink);
+  --color-text-soft: var(--ink-soft);
+  --color-text-muted: var(--ink-muted);
+  --color-border: var(--rule);
+  --color-border-strong: var(--rule-strong);
+
+  /* Primary action: burgundy, darkening to plum on hover. */
+  --color-action: var(--burgundy);
+  --color-action-hover: var(--plum);
+  --color-action-wash: var(--blush-wash);
+
+  /* Secondary/supportive: dusty rose. */
+  --color-secondary: var(--rose);
+  --color-secondary-hover: var(--rose-deep);
+  --color-secondary-wash: var(--blush-wash);
+
+  --color-supportive: var(--rose-deep);
+  --color-supportive-wash: var(--blush-wash);
+  --color-warning: var(--caution);
+  --color-warning-wash: var(--caution-wash);
+
+  /* "Seek emergency care now" — red, and deliberately deeper than 911 red. */
+  --color-serious: var(--wine);
+  --color-serious-wash: var(--wine-wash);
+
+  /* "Call 911" — the brightest red in the app, used nowhere else. */
+  --color-emergency: var(--emergency);
+  --color-emergency-hover: var(--emergency-deep);
+  --color-emergency-wash: var(--emergency-wash);
+
+  /*
+   * A blue focus ring is a deliberate exception to the brand palette: it has to
+   * stay visible against plum, burgundy, rose, and red alike, and no in-palette
+   * color clears 3:1 against all of them.
+   */
+  --color-focus: #1c4fa1;
+  --color-disabled-bg: #ece0e5;
+  --color-disabled-text: #8a7680;
+
+  /* Subtle plum-to-rose gradient for brand surfaces. Never behind body text. */
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--plum) 0%,
+    var(--burgundy) 45%,
+    var(--rose-deep) 100%
+  );
+  --gradient-brand-soft: linear-gradient(
+    135deg,
+    var(--blush-wash) 0%,
+    var(--ivory) 100%
+  );
+
+  /* Radii: editorial content stays nearly square, controls soften slightly. */
+  --radius-editorial: 2px;
+  --radius-control: 6px;
+  --radius-action: 999px;
+
+  /* Type scale */
+  --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.075rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.4vw, 2.6rem);
+  --step-4: clamp(2.1rem, 1.6rem + 2.4vw, 3.5rem);
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Eunica Safe">
+  <title>Eunica Safe simplified mark</title>
+  <desc>A mother holding her newborn inside a protective heart, with a medical cross. Drawn with heavier strokes so it stays legible at small sizes.</desc>
+  <path d="M32 57C10.8 42.3 4 33.2 4 23.4 4 15 10.6 8.3 18.8 8.3c5.4 0 10.2 2.9 12.7 7.3h1c2.5-4.4 7.3-7.3 12.7-7.3C53.4 8.3 60 15 60 23.4c0 9.8-6.8 18.9-28 33.6Z"
+        fill="none" stroke="#651B4F" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="31" cy="23.5" r="5.6" fill="#48123F"/>
+  <path d="M31 29.8c-6.2 0-10.2 4.6-10.8 12-.1 1 .7 1.9 1.7 1.9h18.2c1 0 1.8-.9 1.7-1.9-.6-7.4-4.6-12-10.8-12Z" fill="#48123F"/>
+  <path d="M45.8 14.1h3.8v4h4v3.8h-4v4h-3.8v-4h-4v-3.8h4z" fill="#A75176"/>
+</svg>
