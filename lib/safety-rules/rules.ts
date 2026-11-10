@@ -17,7 +17,7 @@ export const RULES_REVIEW = {
       version: "2026.11.10-draft.2",
       date: "2026-11-10",
       summary:
-        "Expanded the wound path to cover drainage, odour, warmth, swelling, and stalled healing, and to ask which wound is involved. Added prompt-level wound rules so that an incision concern is no longer either an emergency or nothing. Replaced redness-only wording for skin changes with descriptions that hold across skin tones.",
+        "Expanded the wound path to cover drainage, odour, warmth, swelling, and stalled healing, and to ask which wound is involved. Added prompt-level wound rules so that an incision concern is no longer either an emergency or nothing. Replaced redness-only wording for skin changes with descriptions that hold across skin tones. Expanded the belly-pain path with persistent pain, right-shoulder referral, increasing tenderness, and dizziness.",
     },
     {
       version: "2026.09.21-draft.1",
@@ -643,6 +643,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
               "Severe — I cannot stand straight, sleep, or care for my baby",
           },
           {
+            value: "persistent",
+            label: "Constant — it does not come in waves the way cramping does",
+          },
+          {
             value: "moderate",
             label: "Moderate — noticeable but I can manage",
           },
@@ -655,7 +659,11 @@ export const SYMPTOMS: SymptomDefinition[] = [
         kind: "multi",
         exclusiveValue: "none",
         options: [
-          { value: "upper-right", label: "Upper belly or under my right ribs" },
+          {
+            value: "upper-right",
+            label:
+              "Upper belly, under my right ribs, or going through to my right shoulder",
+          },
           { value: "lower", label: "Lower belly" },
           { value: "all-over", label: "All over" },
           { value: "none", label: "Hard to say" },
@@ -675,6 +683,14 @@ export const SYMPTOMS: SymptomDefinition[] = [
             value: "vomiting",
             label: "Vomiting, or unable to keep fluids down",
           },
+          {
+            value: "dizzy",
+            label: "Dizziness, feeling faint, or having fainted",
+          },
+          {
+            value: "more-tender",
+            label: "My belly is more tender to touch than it was yesterday",
+          },
           { value: "rigid", label: "A hard, very tender belly" },
           { value: "bleeding", label: "Heavy bleeding" },
           { value: "none", label: "None of these" },
@@ -682,6 +698,13 @@ export const SYMPTOMS: SymptomDefinition[] = [
       },
     ],
     rules: [
+      {
+        id: "belly.dizzy",
+        when: [{ questionId: "belly-companions", anyOf: ["dizzy"] }],
+        level: "call-911",
+        because:
+          "Belly pain with dizziness or fainting can mean you are bleeding inside your abdomen. That needs emergency responders rather than a drive to hospital.",
+      },
       {
         id: "belly.severe-with-bleeding",
         when: [
@@ -707,16 +730,23 @@ export const SYMPTOMS: SymptomDefinition[] = [
           "Pain severe enough to stop you functioning needs to be examined now rather than at a routine visit.",
       },
       {
+        id: "belly.persistent",
+        when: [{ questionId: "belly-severity", anyOf: ["persistent"] }],
+        level: "emergency-now",
+        because:
+          "Afterbirth cramping comes in waves and eases. Pain that is constant instead is behaving differently and should be assessed now.",
+      },
+      {
         id: "belly.infection-or-obstruction",
         when: [
           {
             questionId: "belly-companions",
-            anyOf: ["fever", "vomiting", "rigid"],
+            anyOf: ["fever", "vomiting", "rigid", "more-tender"],
           },
         ],
         level: "emergency-now",
         because:
-          "Belly pain with fever, vomiting, or a rigid belly can mean an infection or a bowel problem that needs urgent assessment.",
+          "Belly pain with fever, vomiting, increasing tenderness, or a rigid belly can mean an infection or a bowel problem that needs urgent assessment.",
       },
     ],
   },
