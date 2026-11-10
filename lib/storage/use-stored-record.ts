@@ -1,15 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import type { ZodType } from "zod";
 
 import {
   STORAGE_EVENT,
-  readRecord,
+  isStorageAvailable,
   removeRecord,
   writeRecord,
   type StorageKey,
 } from "./local-store";
+
+/** Returned before hydration so server and client markup agree. */
+const NOT_HYDRATED = "\u0000server";
 
 type StoredRecord<T> = {
   value: T;
@@ -21,64 +24,53 @@ type StoredRecord<T> = {
 };
 
 /**
- * Reads and writes one namespaced local record. Hydration happens in an effect
- * so the server-rendered output never depends on device storage.
+ * Reads and writes one namespaced local record. Local storage is an external
+ * store, so it is read through `useSyncExternalStore`: the first render always
+ * matches the server, and every component sharing a key updates together.
  */
 export function useStoredRecord<T>(
   key: StorageKey,
   schema: ZodType<T>,
   fallback: T,
 ): StoredRecord<T> {
-  const [value, setValue] = useState<T>(fallback);
-  const [isReady, setIsReady] = useState(false);
+  const subscribe = useCallback((onChange: () => void) => {
+    window.addEventListener(STORAGE_EVENT, onChange);
+    window.addEventListener("storage", onChange);
+    return () => {
+      window.removeEventListener(STORAGE_EVENT, onChange);
+      window.removeEventListener("storage", onChange);
+    };
+  }, []);
 
-  const read = useCallback(() => {
-    setValue(readRecord(key, schema, fallback));
-    setIsReady(true);
-    // `fallback` and `schema` are module-level constants in every call site.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getSnapshot = useCallback(() => {
+    if (!isStorageAvailable()) return "";
+    return window.localStorage.getItem(key) ?? "";
   }, [key]);
 
-  useEffect(() => {
-    read();
-  }, [read]);
+  const raw = useSyncExternalStore(subscribe, getSnapshot, () => NOT_HYDRATED);
 
-  useEffect(() => {
-    function handle(event: Event) {
-      const detail = (event as CustomEvent<{ key: string }>).detail;
-      if (!detail || detail.key === key) read();
+  const isReady = raw !== NOT_HYDRATED;
+
+  const value = useMemo(() => {
+    if (!isReady || raw === "") return fallback;
+    try {
+      const parsed = schema.safeParse(JSON.parse(raw));
+      return parsed.success ? parsed.data : fallback;
+    } catch {
+      return fallback;
     }
-    window.addEventListener(STORAGE_EVENT, handle);
-    window.addEventListener("storage", handle);
-    return () => {
-      window.removeEventListener(STORAGE_EVENT, handle);
-      window.removeEventListener("storage", handle);
-    };
-  }, [key, read]);
+    // `schema` and `fallback` are module-level constants at every call site.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [raw, isReady]);
 
-  const save = useCallback(
-    (next: T) => {
-      setValue(next);
-      return writeRecord(key, next);
-    },
-    [key],
-  );
+  const save = useCallback((next: T) => writeRecord(key, next), [key]);
 
   const update = useCallback(
-    (updater: (current: T) => T) => {
-      const next = updater(readRecord(key, schema, value));
-      setValue(next);
-      return writeRecord(key, next);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
+    (updater: (current: T) => T) => writeRecord(key, updater(value)),
     [key, value],
   );
 
-  const clear = useCallback(() => {
-    removeRecord(key);
-    setValue(fallback);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  const clear = useCallback(() => removeRecord(key), [key]);
 
   return { value, isReady, save, update, clear };
 }

@@ -288,7 +288,8 @@ export const SYMPTOMS: SymptomDefinition[] = [
           },
           {
             value: "not-relieved",
-            label: "Severe, and not helped by rest, water, or my usual medicine",
+            label:
+              "Severe, and not helped by rest, water, or my usual medicine",
           },
           { value: "moderate", label: "Uncomfortable but it eases with rest" },
         ],
@@ -370,7 +371,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
         kind: "multi",
         exclusiveValue: "none",
         options: [
-          { value: "loss", label: "Losing vision, or a shadow across my sight" },
+          {
+            value: "loss",
+            label: "Losing vision, or a shadow across my sight",
+          },
           { value: "double", label: "Double vision" },
           { value: "spots", label: "Spots, sparkles, or flashing lights" },
           { value: "blurry", label: "Blurry vision" },
@@ -629,9 +633,13 @@ export const SYMPTOMS: SymptomDefinition[] = [
         options: [
           {
             value: "severe",
-            label: "Severe — I cannot stand straight, sleep, or care for my baby",
+            label:
+              "Severe — I cannot stand straight, sleep, or care for my baby",
           },
-          { value: "moderate", label: "Moderate — noticeable but I can manage" },
+          {
+            value: "moderate",
+            label: "Moderate — noticeable but I can manage",
+          },
           { value: "mild", label: "Mild, like period cramps" },
         ],
       },
@@ -657,7 +665,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
             value: "fever",
             label: "A temperature of 100.4°F (38°C) or higher",
           },
-          { value: "vomiting", label: "Vomiting, or unable to keep fluids down" },
+          {
+            value: "vomiting",
+            label: "Vomiting, or unable to keep fluids down",
+          },
           { value: "rigid", label: "A hard, very tender belly" },
           { value: "bleeding", label: "Heavy bleeding" },
           { value: "none", label: "None of these" },
@@ -707,7 +718,14 @@ export const SYMPTOMS: SymptomDefinition[] = [
     id: "severe-pelvic-pain",
     label: "Pelvic, vaginal, or stitches pain",
     detail: "Pain, pressure, or swelling near a tear, stitches, or your pelvis",
-    searchTerms: ["pelvic", "perineum", "stitches", "tear", "vagina", "sitting"],
+    searchTerms: [
+      "pelvic",
+      "perineum",
+      "stitches",
+      "tear",
+      "vagina",
+      "sitting",
+    ],
     warningSignSlug: "severe-pelvic-pain",
     baselineLevel: "contact-team-promptly",
     baselineReason:
@@ -798,7 +816,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
             value: "very-unwell",
             label: "Feeling confused, very weak, or hard to wake",
           },
-          { value: "fast-breathing", label: "Breathing fast, or a racing heart" },
+          {
+            value: "fast-breathing",
+            label: "Breathing fast, or a racing heart",
+          },
           { value: "chills", label: "Shaking chills" },
           { value: "smell", label: "Bad-smelling discharge" },
           {
@@ -901,7 +922,9 @@ export const SYMPTOMS: SymptomDefinition[] = [
     rules: [
       {
         id: "leg.pe-signs",
-        when: [{ questionId: "leg-companions", anyOf: ["chest", "cough-blood"] }],
+        when: [
+          { questionId: "leg-companions", anyOf: ["chest", "cough-blood"] },
+        ],
         level: "call-911",
         because:
           "Leg symptoms with chest pain, breathlessness, or coughing blood can mean a clot has travelled to your lungs.",
@@ -910,7 +933,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
         id: "leg.unilateral",
         when: [
           { questionId: "leg-sides", anyOf: ["one"] },
-          { questionId: "leg-features", anyOf: ["pain", "swelling", "warm-red"] },
+          {
+            questionId: "leg-features",
+            anyOf: ["pain", "swelling", "warm-red"],
+          },
         ],
         level: "emergency-now",
         because:
@@ -928,7 +954,8 @@ export const SYMPTOMS: SymptomDefinition[] = [
   {
     id: "sudden-swelling",
     label: "Sudden swelling",
-    detail: "New puffiness in your face or hands, or swelling appearing quickly",
+    detail:
+      "New puffiness in your face or hands, or swelling appearing quickly",
     searchTerms: ["swelling", "puffy", "face", "hands", "edema", "rings"],
     warningSignSlug: "sudden-swelling",
     baselineLevel: "contact-team-promptly",
@@ -1060,7 +1087,14 @@ export const SYMPTOMS: SymptomDefinition[] = [
     id: "breast-infection",
     label: "Breast pain, redness, or a lump",
     detail: "A hard or red area, cracked nipples, or pain with feeding",
-    searchTerms: ["breast", "mastitis", "nipple", "lump", "engorged", "feeding"],
+    searchTerms: [
+      "breast",
+      "mastitis",
+      "nipple",
+      "lump",
+      "engorged",
+      "feeding",
+    ],
     warningSignSlug: "breast-infection",
     baselineLevel: "monitor-and-contact",
     baselineReason:
@@ -1177,7 +1211,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
             value: "cannot-care",
             label: "I cannot care for myself or my baby right now",
           },
-          { value: "low-anxious", label: "I feel low, anxious, or tearful most days" },
+          {
+            value: "low-anxious",
+            label: "I feel low, anxious, or tearful most days",
+          },
           { value: "none", label: "None of these exactly" },
         ],
       },
@@ -1288,7 +1325,14 @@ export const SYMPTOMS: SymptomDefinition[] = [
     id: "feeling-unsafe",
     label: "Someone is hurting or frightening me",
     detail: "Being hurt, threatened, controlled, or afraid of someone",
-    searchTerms: ["abuse", "domestic", "violence", "partner", "unsafe", "threat"],
+    searchTerms: [
+      "abuse",
+      "domestic",
+      "violence",
+      "partner",
+      "unsafe",
+      "threat",
+    ],
     warningSignSlug: "feeling-unsafe",
     baselineLevel: "contact-team-promptly",
     baselineReason:
@@ -1300,7 +1344,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
         kind: "multi",
         exclusiveValue: "none",
         options: [
-          { value: "immediate", label: "I am being hurt or threatened right now" },
+          {
+            value: "immediate",
+            label: "I am being hurt or threatened right now",
+          },
           { value: "injury", label: "I have been hit, choked, or injured" },
           {
             value: "afraid-tonight",
@@ -1354,7 +1401,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
         kind: "multi",
         exclusiveValue: "none",
         options: [
-          { value: "cannot-go", label: "I cannot urinate, or only small amounts" },
+          {
+            value: "cannot-go",
+            label: "I cannot urinate, or only small amounts",
+          },
           { value: "burning", label: "Burning or stinging" },
           { value: "urgency", label: "Needing to go constantly" },
           { value: "back-pain", label: "Back or side pain" },
@@ -1408,7 +1458,10 @@ export const SYMPTOMS: SymptomDefinition[] = [
             value: "severe",
             label: "A lot — I cannot do my usual things or care for my baby",
           },
-          { value: "moderate", label: "Some — it is uncomfortable or worrying" },
+          {
+            value: "moderate",
+            label: "Some — it is uncomfortable or worrying",
+          },
           { value: "mild", label: "A little — I mostly want to understand it" },
         ],
       },
