@@ -17,6 +17,8 @@ test.describe("safety plan and privacy controls", () => {
     await page.getByRole("button", { name: /save my safety plan/i }).click();
 
     await expect(page.getByText(/^saved /i).first()).toBeVisible();
+    // The form follows the stored record, so submitting clears the dirty state.
+    await expect(page.getByRole("button", { name: /^saved$/i })).toBeVisible();
 
     await page.goto("/emergency");
     await expect(page.getByText("Example General Hospital")).toBeVisible();

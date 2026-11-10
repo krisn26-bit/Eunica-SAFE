@@ -7,7 +7,7 @@ import { Disclosure } from "@/components/ui/disclosure";
 import { PageHeader, Prose, Section } from "@/components/ui/section";
 import { RESOURCE_CONTENT, WARNING_SIGN_CONTENT } from "@/content/meta";
 import { SCOPE_STATEMENT } from "@/lib/privacy/notices";
-import { RULES_REVIEW, SAFETY_RULES_VERSION } from "@/lib/safety-rules";
+import { RULES_REVIEW, SAFETY_RULES_VERSION } from "@/lib/safety-rules/rules";
 import { formatLongDate } from "@/lib/utils";
 
 export const metadata: Metadata = {

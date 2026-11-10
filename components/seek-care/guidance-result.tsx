@@ -11,7 +11,8 @@ import { Callout } from "@/components/ui/callout";
 import { Disclosure } from "@/components/ui/disclosure";
 import { UrgencyBadge } from "@/components/ui/urgency-badge";
 import { getWarningSign } from "@/content/warning-signs";
-import { guidanceShareText, type Guidance } from "@/lib/safety-rules";
+import { guidanceShareText } from "@/lib/safety-rules/engine";
+import type { Guidance } from "@/lib/safety-rules/types";
 
 const WHAT_TO_SAY = [
   "I gave birth on [date] and I am [number] days postpartum.",

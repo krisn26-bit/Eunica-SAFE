@@ -60,7 +60,19 @@ export function Section({
       id={id}
       className={cn(ruled && "border-rule border-t pt-8", className)}
     >
-      {eyebrow ? <p className="eyebrow mb-2">{eyebrow}</p> : null}
+      {/*
+        When a section has no headline the eyebrow is its only label, so it has
+        to be the heading. Otherwise the section's own h3s would follow the
+        page h1 with no h2 between them, and a screen-reader user navigating by
+        heading would hear a level skipped.
+      */}
+      {eyebrow ? (
+        title ? (
+          <p className="eyebrow mb-2">{eyebrow}</p>
+        ) : (
+          <h2 className="eyebrow mb-2">{eyebrow}</h2>
+        )
+      ) : null}
       {title ? (
         <h2 className="text-[length:var(--step-2)] font-semibold">{title}</h2>
       ) : null}

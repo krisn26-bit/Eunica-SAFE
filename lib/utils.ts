@@ -6,9 +6,12 @@ export function cn(...inputs: ClassValue[]): string {
 
 const MS_PER_DAY = 86_400_000;
 
+const DATE_ONLY_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+const NON_DIALABLE_PATTERN = /[^\d+]/g;
+
 /** Parses a `YYYY-MM-DD` string as a local calendar date (no timezone shift). */
 export function parseDateOnly(value: string): Date | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  const match = DATE_ONLY_PATTERN.exec(value.trim());
   if (!match) return null;
   const [, year, month, day] = match;
   const date = new Date(Number(year), Number(month) - 1, Number(day));
@@ -114,11 +117,11 @@ export function createId(prefix = "id"): string {
 }
 
 export function telHref(phone: string): string {
-  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+  return `tel:${phone.replace(NON_DIALABLE_PATTERN, "")}`;
 }
 
 export function smsHref(phone: string, body?: string): string {
-  const number = phone.replace(/[^\d+]/g, "");
+  const number = phone.replace(NON_DIALABLE_PATTERN, "");
   return body
     ? `sms:${number}?&body=${encodeURIComponent(body)}`
     : `sms:${number}`;

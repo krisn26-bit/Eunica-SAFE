@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { WARNING_SIGN_CONTENT } from "@/content/meta";
 import { MEDICAL_DISCLAIMER } from "@/lib/privacy/notices";
-import { SAFETY_RULES_VERSION } from "@/lib/safety-rules";
+import { SAFETY_RULES_VERSION } from "@/lib/safety-rules/rules";
 
 const COLUMNS = [
   {

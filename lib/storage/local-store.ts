@@ -50,6 +50,35 @@ function notify(key: StorageKey) {
   window.dispatchEvent(new CustomEvent(STORAGE_EVENT, { detail: { key } }));
 }
 
+/**
+ * One pair of window listeners for the whole app, however many components read
+ * stored records. Subscribers are fanned out from here instead of each hook
+ * instance registering its own listeners.
+ */
+const subscribers = new Set<() => void>();
+let listening = false;
+
+function broadcast() {
+  for (const subscriber of subscribers) subscriber();
+}
+
+export function subscribeToStorage(onChange: () => void): () => void {
+  subscribers.add(onChange);
+  if (!listening) {
+    window.addEventListener(STORAGE_EVENT, broadcast);
+    window.addEventListener("storage", broadcast);
+    listening = true;
+  }
+  return () => {
+    subscribers.delete(onChange);
+    if (subscribers.size === 0) {
+      window.removeEventListener(STORAGE_EVENT, broadcast);
+      window.removeEventListener("storage", broadcast);
+      listening = false;
+    }
+  };
+}
+
 export function readRecord<T>(
   key: StorageKey,
   schema: ZodType<T>,

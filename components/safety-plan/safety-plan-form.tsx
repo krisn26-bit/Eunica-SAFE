@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, Printer } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -43,18 +43,20 @@ export function SafetyPlanForm() {
   } = useForm<SafetyPlanInput, undefined, SafetyPlan>({
     resolver: zodResolver(safetyPlanSchema),
     defaultValues: EMPTY_SAFETY_PLAN,
+    // The stored record is the source of truth, so the form follows it rather
+    // than copying it into form state with an effect. This covers hydration,
+    // a save from this tab, and a save from another tab alike.
+    values: isReady ? value : undefined,
+    // Someone can start typing before the stored record has been read, and in
+    // a hospital waiting room that is exactly when they will. Their edits win.
+    resetOptions: { keepDirtyValues: true },
   });
-
-  useEffect(() => {
-    if (isReady) reset(value);
-    // Reset once the device value has been read.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
 
   function onSubmit(plan: SafetyPlan) {
     const updatedAt = new Date().toISOString();
     save({ ...plan, updatedAt });
     setSavedAt(updatedAt);
+    // Clearing the dirty state is part of the save, not a reaction to it.
     reset({ ...plan, updatedAt });
   }
 

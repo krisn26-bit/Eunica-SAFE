@@ -4,9 +4,9 @@ import { useCallback, useMemo, useSyncExternalStore } from "react";
 import type { ZodType } from "zod";
 
 import {
-  STORAGE_EVENT,
   isStorageAvailable,
   removeRecord,
+  subscribeToStorage,
   writeRecord,
   type StorageKey,
 } from "./local-store";
@@ -33,21 +33,16 @@ export function useStoredRecord<T>(
   schema: ZodType<T>,
   fallback: T,
 ): StoredRecord<T> {
-  const subscribe = useCallback((onChange: () => void) => {
-    window.addEventListener(STORAGE_EVENT, onChange);
-    window.addEventListener("storage", onChange);
-    return () => {
-      window.removeEventListener(STORAGE_EVENT, onChange);
-      window.removeEventListener("storage", onChange);
-    };
-  }, []);
-
   const getSnapshot = useCallback(() => {
     if (!isStorageAvailable()) return "";
     return window.localStorage.getItem(key) ?? "";
   }, [key]);
 
-  const raw = useSyncExternalStore(subscribe, getSnapshot, () => NOT_HYDRATED);
+  const raw = useSyncExternalStore(
+    subscribeToStorage,
+    getSnapshot,
+    () => NOT_HYDRATED,
+  );
 
   const isReady = raw !== NOT_HYDRATED;
 

@@ -5,7 +5,7 @@ import { SeekCareFlow } from "@/components/seek-care/seek-care-flow";
 import { EmergencyDisclaimer } from "@/components/safety/disclaimers";
 import { Disclosure } from "@/components/ui/disclosure";
 import { PageHeader } from "@/components/ui/section";
-import { RULES_REVIEW, SAFETY_RULES_VERSION } from "@/lib/safety-rules";
+import { RULES_REVIEW, SAFETY_RULES_VERSION } from "@/lib/safety-rules/rules";
 
 export const metadata: Metadata = {
   title: "Should I seek care?",

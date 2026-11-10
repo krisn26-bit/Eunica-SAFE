@@ -9,9 +9,11 @@ export type RecoveryPrompt = {
 
 const FEVER_THRESHOLD_F = 100.4;
 
+const TEMPERATURE_PATTERN = /(-?\d+(?:\.\d+)?)\s*°?\s*([cCfF])?/;
+
 /** Accepts "100.4", "100.4 F", "38 C", "38.1c". Returns degrees Fahrenheit. */
 export function parseTemperatureToF(input: string): number | null {
-  const match = /(-?\d+(?:\.\d+)?)\s*°?\s*([cCfF])?/.exec(input.trim());
+  const match = TEMPERATURE_PATTERN.exec(input.trim());
   if (!match) return null;
   const value = Number(match[1]);
   if (Number.isNaN(value)) return null;
