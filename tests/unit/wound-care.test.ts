@@ -21,7 +21,10 @@ function guidance(answers: Record<string, string[]>) {
 
 describe("wound and incision content", () => {
   it("covers every sign the clinical brief lists", () => {
-    const text = [...wound.looksLike, ...(wound.tiers ?? []).flatMap((t) => t.looksLike)]
+    const text = [
+      ...wound.looksLike,
+      ...(wound.tiers ?? []).flatMap((t) => t.looksLike),
+    ]
       .join(" ")
       .toLowerCase();
     for (const sign of [

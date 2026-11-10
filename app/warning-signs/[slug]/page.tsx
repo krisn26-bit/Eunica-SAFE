@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/page-shell";
 import { Call911Button } from "@/components/safety/call-911";
 import { ProvenanceNote } from "@/components/safety/disclaimers";
+import { CrisisLines } from "@/components/warning-signs/crisis-lines";
 import { ExperiencingThisButton } from "@/components/warning-signs/experiencing-this-button";
 import { TierBands } from "@/components/warning-signs/tier-bands";
 import { ButtonLink } from "@/components/ui/button";
@@ -78,6 +79,8 @@ export default async function WarningSignPage({ params }: Params) {
           <Call911Button />
         </Callout>
       ) : null}
+
+      {sign.category === "mental-health" ? <CrisisLines /> : null}
 
       <Section ruled={false} eyebrow="What it looks like">
         <ul className="index-list">

@@ -144,7 +144,12 @@ describe("blood-pressure triage levels", () => {
       "bp-symptoms": ["none"],
     });
     const text = JSON.stringify(result).toLowerCase();
-    for (const phrase of ["you are safe", "you are fine", "no need", "normal"]) {
+    for (const phrase of [
+      "you are safe",
+      "you are fine",
+      "no need",
+      "normal",
+    ]) {
       expect(text, `"${phrase}" must not appear`).not.toContain(phrase);
     }
   });
