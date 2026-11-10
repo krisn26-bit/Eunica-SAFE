@@ -22,6 +22,11 @@ import {
 } from "@/lib/validation/schemas";
 import { formatDateTime } from "@/lib/utils";
 
+/** A cleared date or select reports "", which is not a valid stored value. */
+function blankToUndefined(value: unknown) {
+  return value === "" ? undefined : value;
+}
+
 export function SafetyPlanForm() {
   const { value, isReady, save } = useStoredRecord(
     STORAGE_KEYS.safetyPlan,
@@ -70,7 +75,7 @@ export function SafetyPlanForm() {
             type="date"
             purpose="Shows how many days postpartum you are. It never changes urgency guidance."
             error={errors.deliveryDate?.message}
-            {...register("deliveryDate")}
+            {...register("deliveryDate", { setValueAs: blankToUndefined })}
           />
           <SelectField
             label="Type of birth"
@@ -80,7 +85,7 @@ export function SafetyPlanForm() {
               label: BIRTH_TYPE_LABELS[value],
             }))}
             error={errors.birthType?.message}
-            {...register("birthType")}
+            {...register("birthType", { setValueAs: blankToUndefined })}
           />
         </div>
       </Section>
