@@ -5,7 +5,7 @@ import type { Question, Rule, SymptomDefinition } from "./types";
  * with each guidance result so that a reviewer can reproduce what the app said
  * (spec §4.4, §10). Bump the date and the counter together.
  */
-export const SAFETY_RULES_VERSION = "2026.09.21-draft.1";
+export const SAFETY_RULES_VERSION = "2026.11.10-draft.2";
 
 export const RULES_REVIEW = {
   version: SAFETY_RULES_VERSION,
@@ -13,6 +13,12 @@ export const RULES_REVIEW = {
   reviewedBy: null as string | null,
   reviewedOn: null as string | null,
   changeLog: [
+    {
+      version: "2026.11.10-draft.2",
+      date: "2026-11-10",
+      summary:
+        "Expanded the wound path to cover drainage, odour, warmth, swelling, and stalled healing, and to ask which wound is involved. Added prompt-level wound rules so that an incision concern is no longer either an emergency or nothing. Replaced redness-only wording for skin changes with descriptions that hold across skin tones.",
+    },
     {
       version: "2026.09.21-draft.1",
       date: "2026-09-21",
@@ -824,7 +830,7 @@ export const SYMPTOMS: SymptomDefinition[] = [
           { value: "smell", label: "Bad-smelling discharge" },
           {
             value: "wound",
-            label: "Redness or drainage from an incision or tear",
+            label: "Colour change or drainage from an incision or tear",
           },
           { value: "urine", label: "Burning when I urinate, or back pain" },
           { value: "none", label: "None of these" },
@@ -894,12 +900,17 @@ export const SYMPTOMS: SymptomDefinition[] = [
       {
         id: "leg-features",
         prompt: "What do you notice in the leg?",
+        help: "Compare the sore leg with the other one. Colour change can look red, purple, brown, or simply darker than the skin beside it.",
         kind: "multi",
         exclusiveValue: "none",
         options: [
           { value: "pain", label: "Pain, tenderness, or a cramping ache" },
           { value: "swelling", label: "Swelling" },
-          { value: "warm-red", label: "Skin that is warm, red, or discolored" },
+          {
+            value: "warm-red",
+            label:
+              "Skin that is warm, or discoloured compared with the other leg",
+          },
           { value: "none", label: "None of these exactly" },
         ],
       },
@@ -1036,16 +1047,39 @@ export const SYMPTOMS: SymptomDefinition[] = [
       "Wound problems are easier to treat early, so care teams would rather hear about them sooner.",
     followUps: [
       {
+        id: "wound-type",
+        prompt: "Which wound are you asking about?",
+        kind: "single",
+        options: [
+          { value: "cesarean", label: "My cesarean incision" },
+          { value: "perineal", label: "A tear or episiotomy" },
+          { value: "other", label: "Another wound" },
+        ],
+      },
+      {
         id: "wound-features",
-        prompt: "What do you see?",
+        prompt: "What do you see or feel?",
+        help: "Colour change can look red, purple, brown, or just darker and shinier than the skin around it. Compare with the other side of your body.",
         kind: "multi",
         exclusiveValue: "none",
         options: [
           { value: "opening", label: "The wound is opening or pulling apart" },
           { value: "bleeding", label: "It is bleeding" },
-          { value: "pus", label: "Pus, cloudy fluid, or a bad smell" },
-          { value: "spreading-red", label: "Redness spreading outward" },
+          { value: "pus", label: "Pus or cloudy fluid" },
+          { value: "odor", label: "An unusual or bad smell" },
+          {
+            value: "spreading-red",
+            label: "Discolouration spreading outward from the wound",
+          },
+          {
+            value: "swelling-warmth",
+            label: "New swelling, firmness, or warmth around it",
+          },
           { value: "more-pain", label: "Pain that is increasing" },
+          {
+            value: "stalled",
+            label: "Healing that has stalled or gone backwards",
+          },
           { value: "none", label: "None of these exactly" },
         ],
       },
@@ -1079,7 +1113,28 @@ export const SYMPTOMS: SymptomDefinition[] = [
         ],
         level: "emergency-now",
         because:
-          "Spreading redness or drainage with a fever suggests the infection is moving beyond the wound edge.",
+          "Spreading discolouration or drainage together with a fever suggests the infection is moving beyond the wound edge.",
+      },
+      {
+        id: "wound.infection-signs",
+        when: [
+          {
+            questionId: "wound-features",
+            anyOf: ["pus", "odor", "spreading-red", "swelling-warmth"],
+          },
+        ],
+        level: "contact-team-promptly",
+        because:
+          "Drainage, a smell, spreading discolouration, or new warmth and firmness are how a wound infection starts. Caught now it is usually a course of antibiotics.",
+      },
+      {
+        id: "wound.not-healing",
+        when: [
+          { questionId: "wound-features", anyOf: ["more-pain", "stalled"] },
+        ],
+        level: "contact-team-promptly",
+        because:
+          "Wound pain should ease day by day. Pain that is increasing, or healing that has gone backwards, is a change your care team needs to hear about rather than watch.",
       },
     ],
   },
@@ -1103,10 +1158,14 @@ export const SYMPTOMS: SymptomDefinition[] = [
       {
         id: "breast-features",
         prompt: "What are you noticing?",
+        help: "Colour change can look red, purple, or darker than the rest of the breast. Heat, hardness, and tenderness count as much as colour.",
         kind: "multi",
         exclusiveValue: "none",
         options: [
-          { value: "red-hot", label: "A red, hot, or hard area on one breast" },
+          {
+            value: "red-hot",
+            label: "A hot, hard, or discoloured area on one breast",
+          },
           { value: "lump", label: "A lump that does not soften after feeding" },
           { value: "cracked", label: "Cracked or bleeding nipples" },
           { value: "full", label: "Both breasts feel overly full" },

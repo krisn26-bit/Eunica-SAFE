@@ -60,6 +60,13 @@ export type WarningSign = {
    * set, the page shows the bands instead of one blanket urgency instruction.
    */
   tiers?: WarningSignTier[];
+  /** Education that belongs to the topic but is not part of deciding what to do. */
+  sections?: { heading: string; body: string; points?: string[] }[];
+  /**
+   * Shown wherever a sign depends on how skin looks, so that the guidance does
+   * not quietly assume light skin.
+   */
+  skinToneNote?: boolean;
   references?: Reference[];
   provenance: ContentProvenance;
 };
@@ -531,22 +538,23 @@ export const WARNING_SIGNS: WarningSign[] = [
   },
   {
     slug: "leg-pain-or-swelling",
-    title: "Leg swelling, redness, or pain",
+    title: "Leg swelling, discolouration, or pain",
     standfirst:
-      "One leg that is swollen, warm, red, or painful, especially in the calf.",
+      "One leg that is swollen, warm, discoloured, or painful, especially in the calf.",
     category: "swelling-and-clots",
     urgencyHint: "emergency-now",
     searchTerms: ["dvt", "blood clot", "calf", "thigh", "one leg"],
     looksLike: [
       "One leg noticeably more swollen than the other.",
       "Calf pain, tenderness, or a cramping ache that will not ease.",
-      "Skin that is red, purple, or warm over the sore area.",
+      "Skin over the sore area that is discoloured — red, purple, brown, or darker than the other leg — or that feels warm.",
       "Leg symptoms with chest pain or shortness of breath.",
     ],
+    skinToneNote: true,
     whyItMatters:
       "Blood clots are more likely during pregnancy and for several weeks after birth. A clot in the leg can travel to the lungs, so it needs to be checked quickly even when the leg pain seems mild.",
     whatToDo: [
-      "Seek emergency care now for new swelling, redness, or pain in one leg.",
+      "Seek emergency care now for new swelling, discolouration, or pain in one leg.",
       "Call 911 if you also have chest pain or trouble breathing.",
       "Do not massage or rub the leg.",
     ],
@@ -593,7 +601,7 @@ export const WARNING_SIGNS: WarningSign[] = [
     slug: "incision-or-wound-concerns",
     title: "Wound or incision concerns",
     standfirst:
-      "A cesarean incision or repair that is opening, draining, or becoming more painful.",
+      "A cesarean incision, a tear, or an episiotomy that is changing — in pain, colour, drainage, or how it is holding together.",
     category: "healing",
     urgencyHint: "same-day",
     searchTerms: [
@@ -603,49 +611,170 @@ export const WARNING_SIGNS: WarningSign[] = [
       "staples",
       "pus",
       "wound",
+      "episiotomy",
+      "tear",
+      "laceration",
+      "perineum",
+      "dehiscence",
     ],
     looksLike: [
-      "Redness spreading out from the incision.",
-      "Pus, cloudy fluid, or a bad smell.",
-      "Edges that are pulling apart or an opening in the wound.",
-      "Pain that is increasing instead of easing, or a fever.",
+      "Pain at the wound that is increasing, or that stops easing day by day.",
+      "A change in the kind of pain — throbbing, burning, or a deep ache that is new.",
+      "Discolouration spreading outward from the wound edge.",
+      "Swelling, firmness, or a lump under the wound.",
+      "Skin around the wound that feels warm or hot compared with the other side of your body.",
+      "Drainage of any kind: clear fluid, cloudy fluid, pus, or blood.",
+      "An unusual or foul smell.",
+      "Edges pulling apart, a gap opening, or a stitch or staple giving way.",
+      "Bleeding from the wound.",
+      "A temperature of 100.4°F (38°C) or higher.",
+      "Healing that stalls or reverses — a wound that looked better last week and looks worse now.",
     ],
+    skinToneNote: true,
     whyItMatters:
-      "Wound infections and separations are common enough to expect and easy to treat early. Waiting can turn a simple course of antibiotics into a longer, more painful problem.",
+      "Most wound problems after birth are treatable, and almost all of them are easier to treat early. A wound infection caught in the first days is often a course of antibiotics; the same infection left for a week can mean the wound being opened, cleaned, and packed, and weeks of extra healing. The point of watching your wound is not to worry about it. It is to notice a change early enough that the fix stays small.",
     whatToDo: [
-      "Contact your care team today. Send a photo if your practice allows it.",
-      "Seek emergency care if the wound opens widely, bleeds heavily, or you have a fever with spreading redness.",
-      "Keep the area clean and dry and avoid ointments unless your care team recommends one.",
+      "Look at the wound once a day in good light, with a mirror or your phone camera if you cannot see it easily.",
+      "Compare it with the skin on the other side of your body rather than with a picture of someone else's healing.",
+      "Take a photo each day. A change is far easier to see across two photos than from memory, and your care team will want to see it.",
+      "Take your temperature if anything about the wound has changed.",
+      "Use the bands below to decide how fast to act.",
+    ],
+    tiers: [
+      {
+        id: "emergency",
+        label: "Go to emergency care now",
+        level: "emergency-now",
+        looksLike: [
+          "The wound has opened widely, or you can see tissue underneath.",
+          "It is bleeding and the bleeding does not slow with firm pressure.",
+          "A swelling near the wound is growing while you watch it.",
+          "You have a fever together with spreading discolouration, or you feel very unwell, confused, weak, or are breathing fast.",
+        ],
+        whatToDo: [
+          "Go to the nearest emergency department now, or call 911 if you feel faint, confused, or cannot get there safely.",
+          "Tell them how you gave birth and how many days ago. Say that this is a postpartum wound.",
+          "Do not drive yourself if you feel faint or unwell.",
+        ],
+      },
+      {
+        id: "prompt",
+        label: "Contact your care team promptly",
+        level: "contact-team-promptly",
+        looksLike: [
+          "Pus or cloudy drainage, or any unusual smell.",
+          "Discolouration spreading outward from the wound edge.",
+          "Pain that is increasing day by day instead of easing.",
+          "A small separation, or one stitch or staple that has given way.",
+          "A temperature of 100.4°F (38°C) or higher.",
+          "Warmth, firmness, or a lump that is new.",
+        ],
+        whatToDo: [
+          "Call your obstetric provider today and describe what changed and when.",
+          "Send a photo if your practice accepts them.",
+          "Keep the area clean and dry, and do not put ointments, powders, or home remedies on it unless your care team asked you to.",
+        ],
+        doNot: [
+          "Do not wait for the next scheduled visit to mention it.",
+          "Do not wait to see whether a fever comes. Drainage and spreading discolouration are reason enough on their own.",
+        ],
+      },
+      {
+        id: "routine",
+        label: "Mention it at your next visit",
+        level: "monitor-and-contact",
+        looksLike: [
+          "Itching, tightness, or a pulling feeling as the wound knits.",
+          "Numbness or odd sensation along a cesarean scar.",
+          "A small amount of clear fluid in the first days.",
+          "Soreness that is slowly and steadily improving.",
+          "Questions about lifting, showering, sitz baths, or scar care.",
+        ],
+        whatToDo: [
+          "Keep watching it daily and keep taking photos.",
+          "Raise it at your next postpartum appointment.",
+          "Call sooner if any of it changes direction and starts getting worse.",
+        ],
+        doNot: [
+          "Do not take this band as a reason to wait if something feels wrong to you. Your own sense that something has changed is a reason to call.",
+        ],
+      },
+    ],
+    sections: [
+      {
+        heading: "If you had a cesarean",
+        body: "A cesarean incision is a surgical wound in a body that is also recovering from birth, feeding a newborn, and usually not sleeping. It is normally a horizontal line low on your abdomen, closed with stitches, staples, or glue, and it is often numb along the scar for months.",
+        points: [
+          "A small amount of clear or lightly blood-tinged fluid in the first days is common. Cloudy fluid, pus, or a smell is not, and needs a call.",
+          "The fold of skin above the incision traps moisture and sweat. Keeping it clean and dry — patting, not rubbing — matters more than any product.",
+          "Support the incision with a hand or a rolled towel when you cough, laugh, or stand up.",
+          "A hard ridge along the scar as it heals is usual. A soft, growing swelling under the scar is not, and should be looked at.",
+          "Follow the lifting limit your surgical team gave you. If you were not given one, ask for it rather than guessing.",
+        ],
+      },
+      {
+        heading: "If you had a tear or an episiotomy",
+        body: "Perineal repairs heal in a place that is warm, moist, and impossible to keep still, which makes it normal for them to be uncomfortable and important to watch them. Pain should ease gradually, day by day.",
+        points: [
+          "Rinse with warm water from a bottle while you urinate, and pat dry from front to back.",
+          "Change pads frequently. A wet pad against a repair slows healing.",
+          "Pain that increases, a bulge or swelling that grows, or a feeling of heavy pressure can mean a collection of blood under the repair. That needs to be assessed the same day.",
+          "Not being able to urinate, or not being able to control stool or gas, needs to be reported straight away. These are treatable and they are not something to live with quietly.",
+          "Stitches dissolve on their own. You do not need to count them or look for them to come out.",
+        ],
+      },
     ],
     call911When: [
-      "The wound is bleeding heavily and does not slow with pressure.",
-      "You feel faint, confused, or very unwell.",
+      "The wound is bleeding heavily and does not slow with firm pressure.",
+      "You feel faint, confused, or very unwell, or you are breathing fast.",
+      "The wound has opened widely and you cannot get to an emergency department safely.",
     ],
     contactCareTeamWhen: [
-      "Normal-looking healing with itching or tugging that you want reassurance about.",
-      "Questions about lifting, showering, or scar care.",
+      "Anything about the wound has changed and you are not sure which band it falls in.",
+      "Healing has stalled, or the wound looked better last week and looks worse now.",
+      "You want reassurance about normal-looking healing, itching, or scar care.",
     ],
     symptomId: "incision-or-wound-concerns",
+    references: [
+      {
+        organisation: "ACOG",
+        title: "Optimizing Postpartum Care (Committee Opinion 736)",
+        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/05/optimizing-postpartum-care",
+      },
+      {
+        organisation: "CDC",
+        title: "Urgent Maternal Warning Signs (Hear Her campaign)",
+        url: "https://www.cdc.gov/hearher/maternal-warning-signs/index.html",
+      },
+      {
+        organisation: "CDC",
+        title:
+          "Surgical Site Infection Event (NHSN) — definitions of wound infection",
+        url: "https://www.cdc.gov/nhsn/psc/ssi/index.html",
+      },
+    ],
     provenance: p,
   },
   {
     slug: "breast-infection",
-    title: "Breast pain, redness, or infection concerns",
+    title: "Breast pain, discolouration, or infection concerns",
     standfirst:
-      "A hard, red, painful area in one breast, often with fever or feeling unwell.",
+      "A hard, hot, painful area in one breast, often with fever or feeling unwell.",
     category: "feeding",
     urgencyHint: "same-day",
     searchTerms: ["mastitis", "clogged duct", "engorged", "nursing", "pumping"],
     looksLike: [
-      "A wedge-shaped red, hot, or hard area on one breast.",
+      "A wedge-shaped area on one breast that is hot, hard, and tender.",
+      "Skin over that area that is discoloured — red, purple, or darker and shinier than the rest of the breast.",
       "Breast pain with fever, chills, or body aches.",
       "A lump that does not soften after feeding or pumping.",
       "Cracked, bleeding nipples that are getting worse.",
     ],
+    skinToneNote: true,
     whyItMatters:
       "Mastitis is an infection of the breast tissue and is treatable. Left alone it can turn into an abscess, and pain often makes feeding harder at a time when you need it to be easier.",
     whatToDo: [
-      "Contact your care team today if you have breast redness with fever or feel unwell.",
+      "Contact your care team today if a hot, hard, tender area comes with a fever or you feel unwell.",
       "Keep feeding or pumping on that side unless you are told otherwise. Emptying the breast is part of treatment.",
       "Use cool compresses and ask which pain medicine is right for you.",
       "Ask for a lactation consultant referral — pain usually has a fixable cause.",

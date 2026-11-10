@@ -21,6 +21,15 @@ export type ContentProvenance = {
 };
 
 /**
+ * Inflammation is taught, and illustrated, almost entirely as redness. On
+ * brown and Black skin it frequently is not red, and a mother who is waiting
+ * to see redness can wait through an infection. Every sign that mentions skin
+ * colour carries this note.
+ */
+export const SKIN_TONE_NOTE =
+  "Redness is not the only sign, and on brown and Black skin it is often not the first one. Inflamed skin can look purple, brown, grey, or simply darker and shinier than the skin around it. Compare the area with the same spot on the other side of your body, in good light, and give warmth, swelling, firmness, and tenderness the same weight you would give colour.";
+
+/**
  * A published source a piece of clinical content is drawn from. Thresholds and
  * recommendations in this app must be traceable to one of these; we do not
  * publish a number we cannot point at a source for.

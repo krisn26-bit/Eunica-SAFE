@@ -12,6 +12,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { PageHeader, Section, StepList } from "@/components/ui/section";
 import { UrgencyBadge } from "@/components/ui/urgency-badge";
+import { SKIN_TONE_NOTE } from "@/content/meta";
 import {
   URGENCY_HINT_LABELS,
   WARNING_SIGNS,
@@ -86,6 +87,15 @@ export default async function WarningSignPage({ params }: Params) {
             </li>
           ))}
         </ul>
+        {sign.skinToneNote ? (
+          <Callout
+            tone="note"
+            title="How this looks on your skin"
+            className="mt-5"
+          >
+            <p>{SKIN_TONE_NOTE}</p>
+          </Callout>
+        ) : null}
       </Section>
 
       <Section eyebrow="Why it matters">
@@ -107,6 +117,21 @@ export default async function WarningSignPage({ params }: Params) {
           <TierBands tiers={tiers} />
         </Section>
       ) : null}
+
+      {sign.sections?.map((block) => (
+        <Section key={block.heading} eyebrow={block.heading}>
+          <p className="text-ink-soft max-w-[64ch] text-[1.02rem] leading-relaxed">
+            {block.body}
+          </p>
+          {block.points?.length ? (
+            <ul className="text-ink-soft mt-4 list-disc space-y-2 pl-5">
+              {block.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          ) : null}
+        </Section>
+      ))}
 
       <Section eyebrow="When to call 911">
         <Callout tone="emergency" title="Call 911 if">
