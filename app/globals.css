@@ -14,14 +14,14 @@
   --color-rule: var(--color-border);
   --color-rule-strong: var(--color-border-strong);
 
-  --color-clay: var(--color-action);
-  --color-clay-deep: var(--color-action-hover);
-  --color-clay-wash: var(--color-action-wash);
-  --color-sage: var(--color-secondary);
-  --color-sage-deep: var(--color-secondary-hover);
-  --color-sage-wash: var(--color-secondary-wash);
-  --color-sand: var(--sand);
-  --color-sand-wash: var(--color-warning-wash);
+  --color-brand: var(--color-action);
+  --color-brand-deep: var(--color-action-hover);
+  --color-brand-wash: var(--color-action-wash);
+  --color-accent: var(--color-secondary);
+  --color-accent-deep: var(--color-secondary-hover);
+  --color-accent-wash: var(--color-secondary-wash);
+  --color-caution: var(--color-warning);
+  --color-caution-wash: var(--color-warning-wash);
   --color-warning-ink: var(--color-warning);
   --color-serious: var(--color-serious);
   --color-serious-wash: var(--color-serious-wash);
@@ -63,7 +63,8 @@
   h3,
   h4 {
     font-family: var(--font-fraunces), Georgia, serif;
-    color: var(--color-text);
+    /* Deep plum headings against charcoal body text, per the brand palette. */
+    color: var(--plum);
     letter-spacing: -0.015em;
     line-height: 1.12;
     text-wrap: balance;

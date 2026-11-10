@@ -46,7 +46,7 @@ export default async function WarningSignPage({ params }: Params) {
       <p>
         <Link
           href="/warning-signs"
-          className="text-ink-muted hover:text-clay-deep inline-flex items-center gap-1.5 text-[0.9rem]"
+          className="text-ink-muted hover:text-brand-deep inline-flex items-center gap-1.5 text-[0.9rem]"
         >
           <ArrowLeft aria-hidden="true" className="size-4" />
           All warning signs

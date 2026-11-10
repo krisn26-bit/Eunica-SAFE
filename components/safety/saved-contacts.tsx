@@ -119,7 +119,7 @@ export function SavedContacts({
               <div className="flex items-start gap-3">
                 <Icon
                   aria-hidden="true"
-                  className="text-clay mt-1 size-4 shrink-0"
+                  className="text-brand mt-1 size-4 shrink-0"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="text-ink-muted text-[0.78rem] tracking-[0.1em] uppercase">

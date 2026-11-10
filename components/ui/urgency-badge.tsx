@@ -24,13 +24,14 @@ const configs: Record<ActionLevel, BadgeConfig> = {
   "contact-team-promptly": {
     label: "Call your care team",
     icon: Stethoscope,
-    className: "border-[color:var(--clay)] bg-clay-wash text-clay-deep",
+    className:
+      "border-[color:var(--color-action)] bg-brand-wash text-brand-deep",
   },
   "monitor-and-contact": {
     label: "Watch and contact",
     icon: Clock,
     className:
-      "border-[color:var(--sage)] bg-sage-wash text-[color:var(--color-supportive)]",
+      "border-[color:var(--color-secondary)] bg-accent-wash text-[color:var(--color-supportive)]",
   },
 };
 

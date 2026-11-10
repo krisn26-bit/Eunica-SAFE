@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
+import { EunicaLogo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -24,10 +25,11 @@ export function SiteHeader() {
   return (
     <header className="border-rule border-b bg-[color:var(--paper)]">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
-        <Link href="/" className="group flex items-baseline gap-2">
-          <span className="text-ink group-hover:text-clay-deep font-serif text-[1.3rem] font-semibold tracking-tight">
-            Eunica&nbsp;Safe
-          </span>
+        <Link href="/" className="group flex items-center gap-2.5">
+          <EunicaLogo
+            markClassName="size-9 shrink-0"
+            wordmarkClassName="text-[1.25rem] sm:text-[1.3rem]"
+          />
           <span className="text-ink-muted hidden text-[0.72rem] tracking-[0.16em] uppercase sm:inline">
             Postpartum
           </span>
@@ -46,7 +48,7 @@ export function SiteHeader() {
                     className={cn(
                       "py-1 font-medium decoration-1 underline-offset-[6px] hover:underline",
                       active
-                        ? "text-clay-deep underline decoration-2"
+                        ? "text-brand-deep underline decoration-2"
                         : "text-ink-soft",
                     )}
                   >
@@ -95,7 +97,7 @@ export function SiteHeader() {
                     onClick={() => setOpen(false)}
                     className={cn(
                       "block py-3.5 text-[1rem] font-medium",
-                      active ? "text-clay-deep" : "text-ink-soft",
+                      active ? "text-brand-deep" : "text-ink-soft",
                     )}
                   >
                     {item.label}

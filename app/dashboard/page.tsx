@@ -94,10 +94,10 @@ export default function DashboardPage() {
                 <Link href={item.href} className="group flex gap-4 py-4">
                   <Icon
                     aria-hidden="true"
-                    className="text-clay mt-1 size-5 shrink-0"
+                    className="text-brand mt-1 size-5 shrink-0"
                   />
                   <span className="flex-1">
-                    <span className="text-ink group-hover:text-clay-deep block font-serif text-[1.15rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
+                    <span className="text-ink group-hover:text-brand-deep block font-serif text-[1.15rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
                       {item.title}
                     </span>
                     <span className="text-ink-soft mt-1 block text-[0.95rem]">

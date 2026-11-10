@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpen, ClipboardList, Stethoscope } from "lucide-react";
 import Link from "next/link";
 
+import { EunicaLogo } from "@/components/brand/logo";
 import { Call911Button } from "@/components/safety/call-911";
 import { ButtonLink } from "@/components/ui/button";
 import { Band, PullQuote, Section } from "@/components/ui/section";
@@ -41,6 +42,12 @@ export default function LandingPage() {
       <div className="mx-auto w-full max-w-5xl px-5 pt-10 pb-12 sm:px-8 sm:pt-16">
         <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
           <div>
+            <EunicaLogo
+              showTagline
+              className="mb-8 sm:mb-10"
+              markClassName="size-14 shrink-0 sm:size-16"
+              wordmarkClassName="text-[1.6rem] sm:text-[1.9rem]"
+            />
             <p className="eyebrow">Postpartum safety, in plain language</p>
             <h1 className="display mt-4">
               You know your body.
@@ -90,7 +97,7 @@ export default function LandingPage() {
       </div>
 
       <Band tone="ink">
-        <p className="text-[0.78rem] font-semibold tracking-[0.14em] text-[color:var(--sand)] uppercase">
+        <p className="text-[0.78rem] font-semibold tracking-[0.14em] text-[color:var(--blush)] uppercase">
           Call 911 for any of these
         </p>
         <ul className="mt-5 grid gap-x-10 gap-y-3 sm:grid-cols-2">
@@ -127,10 +134,10 @@ export default function LandingPage() {
                   <Link href={item.href} className="group flex gap-4 py-5">
                     <Icon
                       aria-hidden="true"
-                      className="text-clay mt-1 size-5 shrink-0"
+                      className="text-brand mt-1 size-5 shrink-0"
                     />
                     <span>
-                      <span className="text-ink group-hover:text-clay-deep block font-serif text-[1.3rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
+                      <span className="text-ink group-hover:text-brand-deep block font-serif text-[1.3rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
                         {item.title}
                       </span>
                       <span className="text-ink-soft mt-1.5 block max-w-[62ch] text-[0.98rem]">

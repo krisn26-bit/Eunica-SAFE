@@ -157,7 +157,7 @@ export function SeekCareFlow() {
                 key={index}
                 className={
                   index < answeredQuestions
-                    ? "bg-clay h-1 flex-1"
+                    ? "bg-brand h-1 flex-1"
                     : "bg-rule h-1 flex-1"
                 }
               />

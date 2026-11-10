@@ -48,7 +48,7 @@ export function GuidanceResult({ guidance }: { guidance: Guidance }) {
         className={
           isEmergency
             ? "border-emergency bg-emergency-wash rounded-[var(--radius-editorial)] border-2 px-5 py-6 sm:px-7"
-            : "border-l-clay rounded-[var(--radius-editorial)] border-l-4 bg-[color:var(--paper)] px-5 py-6 sm:px-7"
+            : "border-l-brand rounded-[var(--radius-editorial)] border-l-4 bg-[color:var(--paper)] px-5 py-6 sm:px-7"
         }
       >
         <div className="flex flex-wrap items-center gap-3">
@@ -155,10 +155,10 @@ export function GuidanceResult({ guidance }: { guidance: Guidance }) {
           >
             <BookOpen
               aria-hidden="true"
-              className="text-clay mt-1 size-5 shrink-0"
+              className="text-brand mt-1 size-5 shrink-0"
             />
             <span>
-              <span className="text-ink group-hover:text-clay-deep block font-serif text-[1.15rem] font-semibold group-hover:underline">
+              <span className="text-ink group-hover:text-brand-deep block font-serif text-[1.15rem] font-semibold group-hover:underline">
                 Read more: {warningSign.title}
               </span>
               <span className="text-ink-soft mt-1 block text-[0.95rem]">

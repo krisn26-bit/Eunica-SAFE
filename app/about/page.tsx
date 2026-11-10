@@ -90,7 +90,7 @@ export default function AboutPage() {
 
       <Section eyebrow="Content governance" title="Who checks this content">
         <div className="space-y-5">
-          <div className="border-sand border-l-2 pl-4">
+          <div className="border-caution border-l-2 pl-4">
             <h3 className="font-serif text-[1.1rem] font-semibold">
               Warning sign library
             </h3>
@@ -104,7 +104,7 @@ export default function AboutPage() {
               {WARNING_SIGN_CONTENT.reviewCadence.toLowerCase()}.
             </p>
           </div>
-          <div className="border-sand border-l-2 pl-4">
+          <div className="border-caution border-l-2 pl-4">
             <h3 className="font-serif text-[1.1rem] font-semibold">
               Support directory
             </h3>

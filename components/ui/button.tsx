@@ -13,11 +13,11 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-clay text-[var(--ink-inverse)] border border-clay hover:bg-clay-deep hover:border-clay-deep rounded-[var(--radius-control)]",
+    "bg-brand text-[var(--ink-inverse)] border border-brand hover:bg-brand-deep hover:border-brand-deep rounded-[var(--radius-control)]",
   secondary:
-    "bg-transparent text-ink border border-rule-strong hover:bg-clay-wash hover:border-clay rounded-[var(--radius-control)]",
+    "bg-transparent text-ink border border-rule-strong hover:bg-brand-wash hover:border-brand rounded-[var(--radius-control)]",
   quiet:
-    "bg-transparent text-ink-soft border border-transparent underline decoration-1 underline-offset-4 hover:text-clay-deep",
+    "bg-transparent text-ink-soft border border-transparent underline decoration-1 underline-offset-4 hover:text-brand-deep",
   emergency:
     "bg-emergency text-white border-2 border-emergency hover:bg-emergency-deep hover:border-emergency-deep rounded-[var(--radius-control)] uppercase tracking-[0.06em]",
   serious:

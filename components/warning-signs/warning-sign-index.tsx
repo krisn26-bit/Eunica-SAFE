@@ -137,7 +137,7 @@ export function WarningSignIndex({ signs }: { signs: WarningSign[] }) {
                 className="group block py-4"
               >
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                  <h2 className="text-ink group-hover:text-clay-deep font-serif text-[1.2rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
+                  <h2 className="text-ink group-hover:text-brand-deep font-serif text-[1.2rem] font-semibold group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">
                     {sign.title}
                   </h2>
                   <UrgencyBadge hint={sign.urgencyHint} />

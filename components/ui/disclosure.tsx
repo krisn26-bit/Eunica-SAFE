@@ -23,7 +23,7 @@ export function Disclosure({
       open={defaultOpen}
       className={cn("group border-rule border-t last:border-b", className)}
     >
-      <summary className="text-ink hover:text-clay-deep flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-left font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+      <summary className="text-ink hover:text-brand-deep flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-left font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
         <span>{summary}</span>
         <ChevronRight
           aria-hidden="true"

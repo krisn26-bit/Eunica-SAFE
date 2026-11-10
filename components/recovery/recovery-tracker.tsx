@@ -144,7 +144,7 @@ export function RecoveryTracker() {
                 onChange={(event) =>
                   setDraft((d) => ({ ...d, painLevel: event.target.value }))
                 }
-                className="h-11 flex-1 accent-[color:var(--clay)]"
+                className="h-11 flex-1 accent-[color:var(--color-action)]"
                 aria-describedby="pain-level-value"
               />
               <output

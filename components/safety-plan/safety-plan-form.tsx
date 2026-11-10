@@ -230,7 +230,7 @@ export function SafetyPlanForm() {
           <p aria-live="polite" className="text-ink-muted text-[0.88rem]">
             {savedAt ? (
               <span className="inline-flex items-center gap-1.5">
-                <Check aria-hidden="true" className="text-sage-deep size-4" />
+                <Check aria-hidden="true" className="text-accent-deep size-4" />
                 Saved {formatDateTime(savedAt)}
               </span>
             ) : value.updatedAt ? (

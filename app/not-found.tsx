@@ -23,7 +23,7 @@ export default function NotFound() {
           <li key={item.href}>
             <Link
               href={item.href}
-              className="text-ink hover:text-clay-deep block py-3.5 font-medium"
+              className="text-ink hover:text-brand-deep block py-3.5 font-medium"
             >
               {item.label}
             </Link>

@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const controlClasses =
-  "w-full min-h-11 border border-rule-strong bg-[color:var(--paper)] px-3 py-2.5 text-[1rem] text-ink rounded-[var(--radius-control)] placeholder:text-ink-muted/70 focus:border-clay";
+  "w-full min-h-11 border border-rule-strong bg-[color:var(--paper)] px-3 py-2.5 text-[1rem] text-ink rounded-[var(--radius-control)] placeholder:text-ink-muted/70 focus:border-brand";
 
 type FieldShellProps = {
   label: string;
@@ -269,8 +269,8 @@ export function ChoiceGroup({
                 "flex cursor-pointer items-start gap-3 rounded-[var(--radius-control)] border px-4 py-3.5",
                 "focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[color:var(--color-focus)]",
                 checked
-                  ? "border-clay bg-clay-wash"
-                  : "border-rule-strong hover:border-clay bg-[color:var(--paper)]",
+                  ? "border-brand bg-brand-wash"
+                  : "border-rule-strong hover:border-brand bg-[color:var(--paper)]",
               )}
             >
               <input
@@ -279,7 +279,7 @@ export function ChoiceGroup({
                 value={option.value}
                 checked={checked}
                 onChange={(event) => toggle(option.value, event.target.checked)}
-                className="mt-1 size-5 shrink-0 accent-[color:var(--clay)]"
+                className="mt-1 size-5 shrink-0 accent-[color:var(--color-action)]"
               />
               <span>
                 <span className="text-ink block font-medium">

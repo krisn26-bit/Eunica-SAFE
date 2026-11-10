@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { EunicaLogo } from "@/components/brand/logo";
 import { WARNING_SIGN_CONTENT } from "@/content/meta";
 import { MEDICAL_DISCLAIMER } from "@/lib/privacy/notices";
 import { SAFETY_RULES_VERSION } from "@/lib/safety-rules/rules";
@@ -35,6 +36,14 @@ export function SiteFooter() {
   return (
     <footer className="border-rule-strong mt-16 border-t bg-[color:var(--parchment-deep)]">
       <div className="mx-auto w-full max-w-5xl px-5 py-10 sm:px-8">
+        <div className="border-rule mb-8 border-b pb-8">
+          <EunicaLogo showTagline markClassName="size-11" />
+          <p className="text-ink-muted mt-3 max-w-[48ch] text-[0.85rem]">
+            Named for Eunica, and built so the next mother has the words and the
+            numbers ready before she needs them.
+          </p>
+        </div>
+
         <div className="grid gap-8 sm:grid-cols-3">
           {COLUMNS.map((column) => (
             <div key={column.heading}>

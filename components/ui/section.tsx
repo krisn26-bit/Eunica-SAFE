@@ -93,14 +93,16 @@ export function Band({
   className,
 }: {
   children: ReactNode;
-  tone?: "paper" | "ink" | "sage" | "clay";
+  tone?: "paper" | "ink" | "accent" | "brand";
   className?: string;
 }) {
   const tones = {
     paper: "bg-[color:var(--paper)] border-y border-rule text-ink",
     ink: "bg-ink-panel text-[color:var(--ink-inverse)]",
-    sage: "bg-sage-wash border-y border-[color:var(--sage)]/25 text-ink",
-    clay: "bg-clay-wash border-y border-[color:var(--clay)]/25 text-ink",
+    accent:
+      "bg-accent-wash border-y border-[color:var(--color-secondary)]/25 text-ink",
+    brand:
+      "bg-brand-wash border-y border-[color:var(--color-action)]/25 text-ink",
   } as const;
 
   return (
@@ -120,7 +122,7 @@ export function PullQuote({
   attribution?: string;
 }) {
   return (
-    <blockquote className="border-clay text-ink border-l-2 pl-5 font-serif text-[length:var(--step-2)] leading-snug">
+    <blockquote className="border-brand text-ink border-l-2 pl-5 font-serif text-[length:var(--step-2)] leading-snug">
       {children}
       {attribution ? (
         <footer className="text-ink-muted mt-3 font-sans text-[0.85rem] tracking-wide">
@@ -159,7 +161,7 @@ export function StepList({ items }: { items: ReactNode[] }) {
         <li key={index} className="flex gap-4 py-3.5">
           <span
             aria-hidden="true"
-            className="text-clay mt-0.5 font-serif text-[1.05rem]"
+            className="text-brand mt-0.5 font-serif text-[1.05rem]"
           >
             {index + 1}
           </span>

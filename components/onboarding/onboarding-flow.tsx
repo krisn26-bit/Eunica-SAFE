@@ -82,7 +82,7 @@ export function OnboardingFlow() {
           <span
             key={id}
             className={
-              position <= index ? "bg-clay h-1 flex-1" : "bg-rule h-1 flex-1"
+              position <= index ? "bg-brand h-1 flex-1" : "bg-rule h-1 flex-1"
             }
           />
         ))}

@@ -51,7 +51,7 @@ export function RecoverySnapshot() {
     <div>
       <h2 className="eyebrow mb-3">Your recovery notes</h2>
       {latest ? (
-        <div className="border-sage border-l-2 pl-4">
+        <div className="border-accent border-l-2 pl-4">
           <p className="text-ink-muted text-[0.82rem] tracking-[0.08em] uppercase">
             Last entry · {formatDateTime(latest.createdAt)}
           </p>

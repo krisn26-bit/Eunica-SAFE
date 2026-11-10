@@ -28,13 +28,13 @@ const tones: Record<
     defaultTitle: "Good to know",
   },
   supportive: {
-    wrapper: "border-l-4 border-l-sage bg-sage-wash",
+    wrapper: "border-l-4 border-l-accent bg-accent-wash",
     label: "text-[color:var(--color-supportive)]",
     icon: HeartHandshake,
     defaultTitle: "Support",
   },
   warning: {
-    wrapper: "border-l-4 border-l-sand bg-sand-wash",
+    wrapper: "border-l-4 border-l-caution bg-caution-wash",
     label: "text-[color:var(--color-warning)]",
     icon: AlertTriangle,
     defaultTitle: "Take this seriously",

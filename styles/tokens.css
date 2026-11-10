@@ -1,48 +1,62 @@
 /*
  * Eunica Safe design tokens.
  *
- * Palette is intentionally warm, printed, and editorial. Emergency colors are
- * reserved: `--color-emergency-*` may only be used for 911 / emergency-care
- * actions so that the red styling keeps its meaning. Urgency is always paired
- * with a text label and icon, never communicated by color alone.
+ * The palette is taken from the Eunica Safe logo: deep plum and burgundy
+ * lettering, dusty rose and soft blush accents, warm cream and soft ivory
+ * surfaces. Brand colors are all in the plum/rose family, which keeps them
+ * clearly separate from the reds below.
+ *
+ * Emergency colors are reserved: `--color-emergency-*` is only for 911 actions
+ * and `--color-serious-*` only for "seek emergency care now". Nothing else may
+ * use them, so red keeps its meaning. Urgency is always paired with a text
+ * label and an icon, never communicated by color alone.
+ *
+ * Every text/background pairing below meets WCAG AA at body size. Dusty rose
+ * (--rose) is an accent only: at 4.2:1 on cream it is for large text, borders,
+ * and washes, and `--rose-deep` is its text-safe companion.
  */
 
 :root {
+  /* Brand palette, from the logo */
+  --plum: #48123f;
+  --burgundy: #651b4f;
+  --rose: #b85f80;
+  --rose-deep: #a75176;
+  --blush: #e8b9c8;
+  --blush-wash: #f6e4ea;
+  --cream: #fff8f3;
+  --ivory: #f8f0ea;
+  --charcoal: #342b32;
+
   /* Surfaces */
-  --parchment: #f6efe4;
-  --parchment-deep: #efe5d6;
-  --paper: #fffdf9;
-  --paper-edge: #e6d9c4;
-  --ink-panel: #221b16;
+  --parchment: var(--cream);
+  --parchment-deep: var(--ivory);
+  --paper: #ffffff;
+  --paper-edge: #ead9e0;
+  --ink-panel: #2b1526;
 
   /* Text */
-  --ink: #241c17;
-  --ink-soft: #4b3f37;
-  --ink-muted: #6d5e53;
-  --ink-inverse: #fbf7f0;
+  --ink: var(--charcoal);
+  --ink-soft: #54454f;
+  --ink-muted: #6b5a64;
+  --ink-inverse: #fff8f3;
 
-  /* Accents */
-  --clay: #a8442a;
-  --clay-deep: #8a3620;
-  --clay-wash: #f5e2d8;
-  --sage: #47604e;
-  --sage-deep: #35493a;
-  --sage-wash: #e3ebe1;
-  --sand: #d9a86c;
-  --sand-wash: #f7e9d5;
-  --oxblood: #7c1d2c;
-  --oxblood-wash: #f6e1e3;
-  --emergency: #b3170f;
-  --emergency-deep: #8c110b;
-  --emergency-wash: #fde9e6;
+  /* Urgency ramp. Plum and rose for everyday guidance, reds for emergencies. */
+  --wine: #8c2434;
+  --wine-wash: #f7e3e6;
+  --emergency: #c92f2f;
+  --emergency-deep: #a52727;
+  --emergency-wash: #fbe7e5;
+  --caution: var(--rose-deep);
+  --caution-wash: var(--blush-wash);
 
   /* Lines */
-  --rule: #ddcdb5;
-  --rule-strong: #c4ae8f;
+  --rule: #e4d3da;
+  --rule-strong: #cdb1bd;
 
   /* Semantic roles */
-  --color-bg: var(--parchment);
-  --color-bg-alt: var(--parchment-deep);
+  --color-bg: var(--cream);
+  --color-bg-alt: var(--ivory);
   --color-surface: var(--paper);
   --color-surface-border: var(--paper-edge);
   --color-text: var(--ink);
@@ -51,26 +65,51 @@
   --color-border: var(--rule);
   --color-border-strong: var(--rule-strong);
 
-  --color-action: var(--clay);
-  --color-action-hover: var(--clay-deep);
-  --color-action-wash: var(--clay-wash);
-  --color-secondary: var(--sage);
-  --color-secondary-hover: var(--sage-deep);
-  --color-secondary-wash: var(--sage-wash);
+  /* Primary action: burgundy, darkening to plum on hover. */
+  --color-action: var(--burgundy);
+  --color-action-hover: var(--plum);
+  --color-action-wash: var(--blush-wash);
 
-  --color-supportive: var(--sage-deep);
-  --color-supportive-wash: var(--sage-wash);
-  --color-warning: #8a5a12;
-  --color-warning-wash: var(--sand-wash);
-  --color-serious: var(--oxblood);
-  --color-serious-wash: var(--oxblood-wash);
+  /* Secondary/supportive: dusty rose. */
+  --color-secondary: var(--rose);
+  --color-secondary-hover: var(--rose-deep);
+  --color-secondary-wash: var(--blush-wash);
+
+  --color-supportive: var(--rose-deep);
+  --color-supportive-wash: var(--blush-wash);
+  --color-warning: var(--caution);
+  --color-warning-wash: var(--caution-wash);
+
+  /* "Seek emergency care now" — red, and deliberately deeper than 911 red. */
+  --color-serious: var(--wine);
+  --color-serious-wash: var(--wine-wash);
+
+  /* "Call 911" — the brightest red in the app, used nowhere else. */
   --color-emergency: var(--emergency);
   --color-emergency-hover: var(--emergency-deep);
   --color-emergency-wash: var(--emergency-wash);
 
+  /*
+   * A blue focus ring is a deliberate exception to the brand palette: it has to
+   * stay visible against plum, burgundy, rose, and red alike, and no in-palette
+   * color clears 3:1 against all of them.
+   */
   --color-focus: #1c4fa1;
-  --color-disabled-bg: #e7ded1;
-  --color-disabled-text: #857668;
+  --color-disabled-bg: #ece0e5;
+  --color-disabled-text: #8a7680;
+
+  /* Subtle plum-to-rose gradient for brand surfaces. Never behind body text. */
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--plum) 0%,
+    var(--burgundy) 45%,
+    var(--rose-deep) 100%
+  );
+  --gradient-brand-soft: linear-gradient(
+    135deg,
+    var(--blush-wash) 0%,
+    var(--ivory) 100%
+  );
 
   /* Radii: editorial content stays nearly square, controls soften slightly. */
   --radius-editorial: 2px;

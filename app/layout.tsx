@@ -28,13 +28,15 @@ export const metadata: Metadata = {
   description:
     "Plain-language postpartum warning signs, a structured way to decide whether to seek care, and the numbers you need in a hard moment. Educational, private, and stored only on your device.",
   applicationName: "Eunica Safe",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { title: "Eunica Safe", capable: true },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f6efe4",
+  themeColor: "#fff8f3",
 };
 
 export default function RootLayout({
