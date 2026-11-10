@@ -1,0 +1,87 @@
+/*
+ * Eunica Safe design tokens.
+ *
+ * Palette is intentionally warm, printed, and editorial. Emergency colors are
+ * reserved: `--color-emergency-*` may only be used for 911 / emergency-care
+ * actions so that the red styling keeps its meaning. Urgency is always paired
+ * with a text label and icon, never communicated by color alone.
+ */
+
+:root {
+  /* Surfaces */
+  --parchment: #f6efe4;
+  --parchment-deep: #efe5d6;
+  --paper: #fffdf9;
+  --paper-edge: #e6d9c4;
+  --ink-panel: #221b16;
+
+  /* Text */
+  --ink: #241c17;
+  --ink-soft: #4b3f37;
+  --ink-muted: #6d5e53;
+  --ink-inverse: #fbf7f0;
+
+  /* Accents */
+  --clay: #a8442a;
+  --clay-deep: #8a3620;
+  --clay-wash: #f5e2d8;
+  --sage: #47604e;
+  --sage-deep: #35493a;
+  --sage-wash: #e3ebe1;
+  --sand: #d9a86c;
+  --sand-wash: #f7e9d5;
+  --oxblood: #7c1d2c;
+  --oxblood-wash: #f6e1e3;
+  --emergency: #b3170f;
+  --emergency-deep: #8c110b;
+  --emergency-wash: #fde9e6;
+
+  /* Lines */
+  --rule: #ddcdb5;
+  --rule-strong: #c4ae8f;
+
+  /* Semantic roles */
+  --color-bg: var(--parchment);
+  --color-bg-alt: var(--parchment-deep);
+  --color-surface: var(--paper);
+  --color-surface-border: var(--paper-edge);
+  --color-text: var(--ink);
+  --color-text-soft: var(--ink-soft);
+  --color-text-muted: var(--ink-muted);
+  --color-border: var(--rule);
+  --color-border-strong: var(--rule-strong);
+
+  --color-action: var(--clay);
+  --color-action-hover: var(--clay-deep);
+  --color-action-wash: var(--clay-wash);
+  --color-secondary: var(--sage);
+  --color-secondary-hover: var(--sage-deep);
+  --color-secondary-wash: var(--sage-wash);
+
+  --color-supportive: var(--sage-deep);
+  --color-supportive-wash: var(--sage-wash);
+  --color-warning: #8a5a12;
+  --color-warning-wash: var(--sand-wash);
+  --color-serious: var(--oxblood);
+  --color-serious-wash: var(--oxblood-wash);
+  --color-emergency: var(--emergency);
+  --color-emergency-hover: var(--emergency-deep);
+  --color-emergency-wash: var(--emergency-wash);
+
+  --color-focus: #1c4fa1;
+  --color-disabled-bg: #e7ded1;
+  --color-disabled-text: #857668;
+
+  /* Radii: editorial content stays nearly square, controls soften slightly. */
+  --radius-editorial: 2px;
+  --radius-control: 6px;
+  --radius-action: 999px;
+
+  /* Type scale */
+  --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.075rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.4vw, 2.6rem);
+  --step-4: clamp(2.1rem, 1.6rem + 2.4vw, 3.5rem);
+}
