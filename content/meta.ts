@@ -20,6 +20,17 @@ export type ContentProvenance = {
   reviewCadence: string;
 };
 
+/**
+ * A published source a piece of clinical content is drawn from. Thresholds and
+ * recommendations in this app must be traceable to one of these; we do not
+ * publish a number we cannot point at a source for.
+ */
+export type Reference = {
+  organisation: string;
+  title: string;
+  url: string;
+};
+
 export const WARNING_SIGN_CONTENT: ContentProvenance = {
   version: "0.1.0-draft",
   status: "draft",

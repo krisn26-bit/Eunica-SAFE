@@ -1,4 +1,10 @@
-import { WARNING_SIGN_CONTENT, type ContentProvenance } from "./meta";
+import type { ActionLevel } from "@/lib/safety-rules/types";
+
+import {
+  WARNING_SIGN_CONTENT,
+  type ContentProvenance,
+  type Reference,
+} from "./meta";
 
 export type WarningSignCategory =
   | "bleeding"
@@ -15,6 +21,25 @@ export type WarningSignCategory =
 /** How urgently this topic usually needs attention. Never a diagnosis. */
 export type UrgencyHint = "call-911" | "emergency-now" | "same-day" | "prompt";
 
+/**
+ * Some topics span more than one action level, and collapsing them into a
+ * single instruction is actively harmful: a mother told to call 911 for an
+ * elevated blood-pressure reading learns to discount the instruction by the
+ * time she has a severe-range one. Tiers keep the bands apart, each with the
+ * response that band actually calls for.
+ */
+export type WarningSignTier = {
+  id: string;
+  label: string;
+  /** The measurable boundary, where the topic has one. */
+  threshold?: string;
+  level: ActionLevel;
+  looksLike: string[];
+  whatToDo: string[];
+  /** Instructions that sound sensible here and are wrong. */
+  doNot?: string[];
+};
+
 export type WarningSign = {
   slug: string;
   title: string;
@@ -30,6 +55,12 @@ export type WarningSign = {
   contactCareTeamWhen: string[];
   /** Symptom id in the seek-care questionnaire, when one exists. */
   symptomId: string | null;
+  /**
+   * Present when the topic covers bands that need different responses. When
+   * set, the page shows the bands instead of one blanket urgency instruction.
+   */
+  tiers?: WarningSignTier[];
+  references?: Reference[];
   provenance: ContentProvenance;
 };
 
@@ -170,32 +201,111 @@ export const WARNING_SIGNS: WarningSign[] = [
     slug: "high-blood-pressure",
     title: "High blood-pressure warning signs",
     standfirst:
-      "Readings at or above 140/90, or symptoms like headache, swelling, and pain under your ribs.",
+      "Two different readings that need two different responses: elevated, from 140/90, and severe-range, from 160/110.",
     category: "blood-pressure",
     urgencyHint: "emergency-now",
-    searchTerms: ["preeclampsia", "bp", "hypertension", "cuff", "140/90"],
+    searchTerms: [
+      "preeclampsia",
+      "bp",
+      "hypertension",
+      "cuff",
+      "140/90",
+      "160/110",
+      "severe range",
+    ],
     looksLike: [
-      "A home reading of 140/90 or higher, especially twice a few minutes apart.",
-      "A reading of 160/110 or higher at any time.",
+      "A home reading of 140/90 or higher.",
+      "A reading of 160/110 or higher — either number on its own is enough.",
       "Headache, vision changes, sudden swelling, nausea, or pain in your upper belly or under your right ribs.",
+      "A reading that is normal, taken while you feel unwell. Symptoms matter even when the number does not look alarming.",
     ],
     whyItMatters:
-      "Blood pressure can rise for the first time after birth, most often in the first week or two. High blood pressure after delivery can lead to seizures and stroke, and it is treatable when it is found early.",
+      "Blood pressure can rise for the first time after birth, most often in the first week or two, and it can rise in someone whose pressure was normal all through pregnancy. Untreated, it can lead to seizures and stroke. Treated, it usually settles. The reason the two bands are separated here is that they need different speeds of response, and an app that tells you to call 911 for every reading teaches you to ignore it by the time it matters.",
     whatToDo: [
-      "Go to the emergency department now for a reading of 160/110 or higher, or for any high reading with symptoms.",
-      "Contact your care team today for readings of 140/90 or higher without symptoms.",
-      "Measure again after resting five minutes, feet flat, arm supported at heart level, and write down both readings.",
+      "Rest five minutes first. Sit with your back supported, feet flat on the floor, legs uncrossed, arm supported at heart level, cuff on bare skin.",
+      "Write down the numbers and the time. Your care team will ask for both.",
+      "Use the two bands below to decide what to do next.",
       "Keep taking any blood-pressure medicine you were prescribed unless your care team tells you otherwise.",
     ],
+    tiers: [
+      {
+        id: "elevated",
+        label: "Elevated range",
+        threshold: "140/90 up to 159/109",
+        level: "contact-team-promptly",
+        looksLike: [
+          "Systolic (top number) 140 to 159, or diastolic (bottom number) 90 to 109.",
+          "You feel well, or you have only mild symptoms.",
+        ],
+        whatToDo: [
+          "Rest five minutes and repeat the reading with proper technique.",
+          "If it is still 140/90 or higher, contact your obstetric provider promptly — the same day where you can.",
+          "Describe both readings, how many days postpartum you are, and anything else you are noticing.",
+          "Keep measuring at the times your care team asked for, and write every reading down.",
+        ],
+        doNot: [
+          "Do not wait until you have symptoms before you call. A persistent elevated reading is reason enough on its own.",
+          "Do not assume a single normal reading afterwards cancels it out. Tell your care team about the high one.",
+        ],
+      },
+      {
+        id: "severe-range",
+        label: "Severe range",
+        threshold: "160 or higher on top, or 110 or higher on the bottom",
+        level: "emergency-now",
+        looksLike: [
+          "Systolic (top number) 160 or higher, on its own.",
+          "Diastolic (bottom number) 110 or higher, on its own.",
+          "Either number in that range, whether or not you feel unwell.",
+        ],
+        whatToDo: [
+          "Seek medical evaluation immediately. Contact your maternity team now, or go to the nearest emergency department.",
+          "Say the words: “I am postpartum and my blood pressure is in the severe range.” That phrase gets you triaged correctly.",
+          "Call 911 if you also have any of the emergency symptoms listed below, or if you cannot arrange safe immediate transport.",
+        ],
+        doNot: [
+          "Do not wait and take another reading first. A severe-range reading is acted on, not confirmed.",
+          "Do not wait for a callback, for morning, or for a scheduled appointment.",
+        ],
+      },
+    ],
     call911When: [
-      "You have a seizure, chest pain, trouble breathing, or you cannot stay awake.",
-      "You have weakness on one side or trouble speaking.",
+      "You have a seizure, or shaking you cannot control.",
+      "You have chest pain, or significant difficulty breathing.",
+      "You have weakness or numbness on one side, trouble speaking, or a sudden change in how alert you are.",
+      "Your blood pressure is in the severe range and you cannot get to an emergency department safely and immediately.",
     ],
     contactCareTeamWhen: [
-      "Your readings are creeping up but you feel well.",
+      "A repeated reading is 140/90 or higher and you feel well.",
+      "Your readings are creeping up over several days.",
+      "You have a severe or persistent headache, blurred vision or seeing spots, sudden swelling of your face or hands, pain in your upper belly or under your right ribs, or nausea and vomiting alongside any of these — contact them straight away, whatever the reading says.",
       "You do not have a cuff and need help getting a blood-pressure check.",
     ],
     symptomId: "high-blood-pressure",
+    references: [
+      {
+        organisation: "ACOG",
+        title:
+          "Gestational Hypertension and Preeclampsia (Practice Bulletin 222)",
+        url: "https://www.acog.org/clinical/clinical-guidance/practice-bulletin/articles/2020/06/gestational-hypertension-and-preeclampsia",
+      },
+      {
+        organisation: "ACOG",
+        title:
+          "Emergent Therapy for Acute-Onset, Severe Hypertension During Pregnancy and the Postpartum Period (Committee Opinion 767)",
+        url: "https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2019/02/emergent-therapy-for-acute-onset-severe-hypertension-during-pregnancy-and-the-postpartum-period",
+      },
+      {
+        organisation: "CDC",
+        title: "Urgent Maternal Warning Signs (Hear Her campaign)",
+        url: "https://www.cdc.gov/hearher/maternal-warning-signs/index.html",
+      },
+      {
+        organisation: "American Heart Association",
+        title: "Monitoring Your Blood Pressure at Home",
+        url: "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings/monitoring-your-blood-pressure-at-home",
+      },
+    ],
     provenance: p,
   },
   {

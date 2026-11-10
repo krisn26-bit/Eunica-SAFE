@@ -7,6 +7,7 @@ import { PageShell } from "@/components/layout/page-shell";
 import { Call911Button } from "@/components/safety/call-911";
 import { ProvenanceNote } from "@/components/safety/disclaimers";
 import { ExperiencingThisButton } from "@/components/warning-signs/experiencing-this-button";
+import { TierBands } from "@/components/warning-signs/tier-bands";
 import { ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { PageHeader, Section, StepList } from "@/components/ui/section";
@@ -38,8 +39,15 @@ export default async function WarningSignPage({ params }: Params) {
   const sign = getWarningSign(slug);
   if (!sign) notFound();
 
+  /**
+   * Topics with tiers carry their urgency inside each band. Showing the
+   * blanket "call 911" banner above them would restore exactly the problem the
+   * bands exist to fix.
+   */
+  const tiers = sign.tiers ?? [];
   const isEmergencyTopic =
-    sign.urgencyHint === "call-911" || sign.urgencyHint === "emergency-now";
+    tiers.length === 0 &&
+    (sign.urgencyHint === "call-911" || sign.urgencyHint === "emergency-now");
 
   return (
     <PageShell>
@@ -86,9 +94,19 @@ export default async function WarningSignPage({ params }: Params) {
         </p>
       </Section>
 
-      <Section eyebrow="What to do">
+      <Section eyebrow={tiers.length > 0 ? "Before you decide" : "What to do"}>
         <StepList items={sign.whatToDo} />
       </Section>
+
+      {tiers.length > 0 ? (
+        <Section eyebrow="Which band you are in">
+          <p className="text-ink-soft mb-6 max-w-[64ch]">
+            These bands need different responses. Find the one that matches what
+            you measured.
+          </p>
+          <TierBands tiers={tiers} />
+        </Section>
+      ) : null}
 
       <Section eyebrow="When to call 911">
         <Callout tone="emergency" title="Call 911 if">
@@ -133,6 +151,32 @@ export default async function WarningSignPage({ params }: Params) {
           </ButtonLink>
         </div>
       </Section>
+
+      {sign.references?.length ? (
+        <Section eyebrow="Where this comes from">
+          <p className="text-ink-soft mb-4 max-w-[64ch]">
+            The thresholds and instructions on this page follow published
+            guidance from these organisations.
+          </p>
+          <ul className="index-list">
+            {sign.references.map((reference) => (
+              <li key={reference.url} className="py-3">
+                <a
+                  href={reference.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-deep underline underline-offset-4"
+                >
+                  {reference.title}
+                </a>
+                <span className="text-ink-muted block text-[0.88rem]">
+                  {reference.organisation}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
 
       <ProvenanceNote provenance={sign.provenance} />
     </PageShell>
