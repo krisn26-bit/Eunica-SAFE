@@ -4,33 +4,59 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { MedicalHistoryForm } from "@/components/medical-history/medical-history-form";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
-import { ChoiceGroup, TextField } from "@/components/ui/field";
+import { ChoiceGroup } from "@/components/ui/field";
 import { StepList } from "@/components/ui/section";
+import {
+  CESAREAN_DELIVERY_TYPES,
+  EMPTY_MEDICAL_HISTORY,
+  isMedicalHistoryComplete,
+  medicalHistorySchema,
+  missingRequiredAnswers,
+  type MedicalHistory,
+} from "@/lib/medical-history/schema";
 import { DATA_HANDLING, SCOPE_STATEMENT } from "@/lib/privacy/notices";
 import { STORAGE_KEYS } from "@/lib/storage/local-store";
 import { useStoredRecord } from "@/lib/storage/use-stored-record";
 import {
-  BIRTH_TYPES,
-  BIRTH_TYPE_LABELS,
   EMPTY_SAFETY_PLAN,
   USER_ROLES,
   USER_ROLE_DETAILS,
   USER_ROLE_LABELS,
   preferencesSchema,
   safetyPlanSchema,
+  type BirthType,
   type UserRole,
 } from "@/lib/validation/schemas";
-const STEPS = ["scope", "role", "basics", "done"] as const;
+
+const STEPS = ["scope", "role", "history", "done"] as const;
 type StepId = (typeof STEPS)[number];
+
+const STEP_LABELS: Record<StepId, string> = {
+  scope: "What this is",
+  role: "Who is using it",
+  history: "Your medical history",
+  done: "Finished",
+};
+
+/** Keeps the safety plan's own delivery fields aligned with the history. */
+function birthTypeFromHistory(history: MedicalHistory): BirthType | undefined {
+  if (!history.deliveryType) return undefined;
+  if (CESAREAN_DELIVERY_TYPES.includes(history.deliveryType)) return "cesarean";
+  if (history.deliveryType === "vaginal") return "vaginal";
+  if (history.deliveryType === "assisted") return "assisted";
+  if (history.deliveryType === "vbac") return "vbac";
+  return "prefer-not-to-say";
+}
 
 export function OnboardingFlow() {
   const router = useRouter();
   const [step, setStep] = useState<StepId>("scope");
   const [role, setRole] = useState<UserRole | null>(null);
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [birthType, setBirthType] = useState<string | null>(null);
+  const [draft, setDraft] = useState<MedicalHistory>(EMPTY_MEDICAL_HISTORY);
+  const [showHistoryErrors, setShowHistoryErrors] = useState(false);
 
   const preferences = useStoredRecord(
     STORAGE_KEYS.preferences,
@@ -45,26 +71,33 @@ export function OnboardingFlow() {
     safetyPlanSchema,
     EMPTY_SAFETY_PLAN,
   );
+  const history = useStoredRecord(
+    STORAGE_KEYS.medicalHistory,
+    medicalHistorySchema,
+    EMPTY_MEDICAL_HISTORY,
+  );
 
   const index = STEPS.indexOf(step);
+  const historyComplete = isMedicalHistoryComplete(draft);
+  const missing = missingRequiredAnswers(draft);
 
   function finish() {
+    const now = new Date().toISOString();
+
+    history.save({ ...draft, completedAt: now, updatedAt: now });
     preferences.save({
       role: role ?? undefined,
-      onboardedAt: new Date().toISOString(),
+      onboardedAt: now,
       locationConsent: preferences.value.locationConsent,
       reduceMotion: preferences.value.reduceMotion,
     });
-    if (deliveryDate || birthType) {
-      plan.update((current) => ({
-        ...current,
-        deliveryDate: deliveryDate || current.deliveryDate,
-        birthType:
-          (birthType as (typeof BIRTH_TYPES)[number] | null) ??
-          current.birthType,
-        updatedAt: new Date().toISOString(),
-      }));
-    }
+    plan.update((current) => ({
+      ...current,
+      deliveryDate: draft.deliveryDate ?? current.deliveryDate,
+      birthType: birthTypeFromHistory(draft) ?? current.birthType,
+      updatedAt: now,
+    }));
+
     setStep("done");
   }
 
@@ -75,7 +108,7 @@ export function OnboardingFlow() {
         aria-valuemin={1}
         aria-valuemax={STEPS.length}
         aria-valuenow={index + 1}
-        aria-label={`Step ${index + 1} of ${STEPS.length}`}
+        aria-label={`Step ${index + 1} of ${STEPS.length}: ${STEP_LABELS[step]}`}
         className="flex gap-1"
       >
         {STEPS.map((id, position) => (
@@ -158,34 +191,30 @@ export function OnboardingFlow() {
         </section>
       ) : null}
 
-      {step === "basics" ? (
+      {step === "history" ? (
         <section className="space-y-6">
           <div>
             <h2 className="font-serif text-[length:var(--step-2)] font-semibold">
-              Two optional details
+              Your medical history
             </h2>
             <p className="text-ink-soft mt-2 max-w-[60ch]">
-              These help the app show where you are in recovery. Skip anything
-              you would rather not save — guidance does not change either way.
+              This part is needed, because it decides which education your
+              safety plan shows you. Most of it is tap-to-answer, and &ldquo;I
+              am not sure&rdquo; is a real answer everywhere.
             </p>
           </div>
-          <TextField
-            label="Date of birth of your baby"
-            type="date"
-            value={deliveryDate}
-            onChange={(event) => setDeliveryDate(event.target.value)}
-            purpose="Used to show how many days postpartum you are. It never changes urgency guidance."
-          />
-          <ChoiceGroup
-            legend="Type of birth"
-            name="birth-type"
-            options={BIRTH_TYPES.map((value) => ({
-              value,
-              label: BIRTH_TYPE_LABELS[value],
-            }))}
-            value={birthType ? [birthType] : []}
-            onChange={(next) => setBirthType(next[0] ?? null)}
-          />
+
+          <MedicalHistoryForm value={draft} onChange={setDraft} embedded />
+
+          {showHistoryErrors && missing.length > 0 ? (
+            <Callout
+              tone="warning"
+              title="A few answers are still needed"
+              assertive
+            >
+              <p>Still to answer: {missing.join("; ")}.</p>
+            </Callout>
+          ) : null}
         </section>
       ) : null}
 
@@ -196,12 +225,14 @@ export function OnboardingFlow() {
               You are set up
             </h2>
             <p className="text-ink-soft mt-2 max-w-[60ch]">
-              Here is what to do next, in the order that helps most.
+              Your safety plan now includes the education that matches what you
+              told us. Here is what to do next, in the order that helps most.
             </p>
           </div>
           <StepList
             items={[
               "Add your hospital, your care team, and one emergency contact to your safety plan. This is the part that saves time in a crisis.",
+              "Read the education your history brought up. It is at the top of your safety plan.",
               "Skim the warning signs once, while you are calm. You will recognise them faster later.",
               "Bookmark this page, or add it to your home screen, so it is one tap away.",
             ]}
@@ -232,18 +263,22 @@ export function OnboardingFlow() {
             variant="primary"
             size="lg"
             onClick={() => {
-              if (step === "basics") {
+              if (step === "history") {
+                if (!historyComplete) {
+                  setShowHistoryErrors(true);
+                  return;
+                }
                 finish();
                 return;
               }
               setStep(STEPS[index + 1]);
             }}
           >
-            {step === "basics" ? "Save and finish" : "Continue"}
+            {step === "history" ? "Save and finish" : "Continue"}
             <ArrowRight aria-hidden="true" className="size-5" />
           </Button>
           <Button variant="quiet" onClick={() => router.push("/dashboard")}>
-            Skip setup
+            {step === "history" ? "Finish this later" : "Skip setup"}
           </Button>
         </div>
       ) : null}

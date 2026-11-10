@@ -1,6 +1,10 @@
 import type { ZodType } from "zod";
 
 import {
+  EMPTY_MEDICAL_HISTORY,
+  medicalHistorySchema,
+} from "@/lib/medical-history/schema";
+import {
   EMPTY_RECOVERY_LOG,
   EMPTY_SAFETY_PLAN,
   EXPORT_FORMAT_VERSION,
@@ -25,6 +29,7 @@ const NAMESPACE = "eunica-safe.v1";
 export const STORAGE_KEYS = {
   preferences: `${NAMESPACE}.preferences`,
   safetyPlan: `${NAMESPACE}.safety-plan`,
+  medicalHistory: `${NAMESPACE}.medical-history`,
   recovery: `${NAMESPACE}.recovery`,
   location: `${NAMESPACE}.location`,
 } as const;
@@ -133,6 +138,11 @@ export function buildExportBundle(): ExportBundle {
       STORAGE_KEYS.safetyPlan,
       safetyPlanSchema,
       EMPTY_SAFETY_PLAN,
+    ),
+    medicalHistory: readRecord(
+      STORAGE_KEYS.medicalHistory,
+      medicalHistorySchema,
+      EMPTY_MEDICAL_HISTORY,
     ),
     recovery: readRecord(
       STORAGE_KEYS.recovery,

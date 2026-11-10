@@ -53,8 +53,8 @@ export function DataControls() {
             assertive
           >
             <p>
-              Your safety plan, recovery notes, saved location, and preferences
-              will be removed from this browser.
+              Your medical history, safety plan, recovery notes, saved location,
+              and preferences will be removed from this browser.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Button

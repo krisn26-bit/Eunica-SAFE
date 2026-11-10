@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { medicalHistorySchema } from "@/lib/medical-history/schema";
+
 /**
  * Runtime schemas for everything the app persists.
  *
@@ -226,6 +228,7 @@ export const exportBundleSchema = z.object({
   exportedAt: z.string(),
   preferences: preferencesSchema.partial().optional(),
   safetyPlan: safetyPlanSchema.partial().optional(),
+  medicalHistory: medicalHistorySchema.partial().optional(),
   recovery: recoveryLogSchema.partial().optional(),
 });
 export type ExportBundle = z.infer<typeof exportBundleSchema>;

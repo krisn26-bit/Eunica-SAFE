@@ -18,6 +18,7 @@ const COLUMNS = [
     heading: "Get ready",
     links: [
       { href: "/safety-plan", label: "My safety plan" },
+      { href: "/medical-history", label: "My medical history" },
       { href: "/recovery", label: "Recovery tracker" },
       { href: "/care-locator", label: "Find care near you" },
     ],
